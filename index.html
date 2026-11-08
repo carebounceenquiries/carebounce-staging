@@ -1012,14 +1012,38 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
       <div class="opts">
 
         <label class="opt" for="optCastle">
-          <input type="checkbox" id="optCastle" class="opt-input" data-price="650" data-label="Jumping castle" data-value="castle" checked>
+          <input type="checkbox" id="optCastle" class="opt-input" data-price="650" data-label="Jumping castle &mdash; with a roof" data-value="castle" checked>
           <span class="opt-card">
             <span class="opt-check" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#1B2A4A" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
             <span class="opt-body">
-              <span class="opt-name">Jumping castle</span>
+              <span class="opt-name">Jumping castle &mdash; with a roof</span>
               <span class="opt-note">4&times;4m, for ages four and up. The one every party needs.</span>
             </span>
             <span class="opt-cost">R650</span>
+          </span>
+        </label>
+
+        <label class="opt" for="optSlide">
+          <input type="checkbox" id="optSlide" class="opt-input" data-price="750" data-label="Jumping castle with a slide &mdash; with a roof" data-value="slide">
+          <span class="opt-card">
+            <span class="opt-check" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#1B2A4A" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+            <span class="opt-body">
+              <span class="opt-name">Jumping castle with a slide &mdash; with a roof</span>
+              <span class="opt-note">A slide down one side. The older ones stay on it far longer.</span>
+            </span>
+            <span class="opt-cost">R750</span>
+          </span>
+        </label>
+
+        <label class="opt" for="optWhite">
+          <input type="checkbox" id="optWhite" class="opt-input" data-price="850" data-label="White jumping castle" data-value="white">
+          <span class="opt-card">
+            <span class="opt-check" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#1B2A4A" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+            <span class="opt-body">
+              <span class="opt-name">White jumping castle</span>
+              <span class="opt-note">Plain white, no cartoon print. The one for photographs and parties with a colour scheme of their own.</span>
+            </span>
+            <span class="opt-cost">R850</span>
           </span>
         </label>
 
@@ -1036,12 +1060,12 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
         </label>
 
         <label class="opt" for="optBubble">
-          <input type="checkbox" id="optBubble" class="opt-input" data-price="1395" data-label="Bubble house" data-value="bubble">
+          <input type="checkbox" id="optBubble" class="opt-input" data-price="1395" data-label="Bubble house &mdash; with balloons" data-value="bubble">
           <span class="opt-card">
             <span class="opt-check" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#1B2A4A" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
             <span class="opt-body">
-              <span class="opt-name">Bubble house</span>
-              <span class="opt-note">A clear inflatable dome. Shade when the sun is high, and the photograph everyone takes.</span>
+              <span class="opt-name">Bubble house &mdash; with balloons</span>
+              <span class="opt-note">A clear dome filled with balloons, for four hours. Shade when the sun is high, and the photograph everyone takes.</span>
             </span>
             <span class="opt-cost">R1 395</span>
           </span>
@@ -1140,13 +1164,16 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
         <div class="field full"><label for="qpack">What are you after?</label>
           <select id="qpack" name="package">
             <option value="castle" selected>Jumping castle &mdash; R650</option>
+            <option value="slide">Castle with a slide &mdash; R750</option>
+            <option value="white">White jumping castle &mdash; R850</option>
             <option value="softplay">Soft play set &mdash; R1 000</option>
-            <option value="bubble">Bubble house &mdash; R1 395</option>
+            <option value="bubble">Bubble house, with balloons &mdash; R1 395</option>
             <option value="castle+softplay">Castle + soft play &mdash; R1 500</option>
             <option value="castle+bubble">Castle + bubble house &mdash; R1 895</option>
             <option value="softplay+bubble">Soft play + bubble house &mdash; R2 245</option>
             <option value="castle+softplay+bubble">All three &mdash; R2 845</option>
             <option value="custom">Not sure yet, please advise</option>
+            <option value="mixed" hidden>As ticked above</option>
           </select>
         </div>
 
@@ -3134,9 +3161,11 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
 
 /* ---- package picker: live total, discount shown before checkout ---- */
 (function(){
-  /* Flat discount by how many items are taken: two = R150, all three = R200. */
-  var DISCOUNT = { 2: 150, 3: 200 };
-  var ORDER    = ['castle','softplay','bubble'];
+  /* R150 off two items, then R50 more for each one after that. The old
+     table was {2:150, 3:200}; the formula gives the same answers and does
+     not quietly pay nothing once there are more than three things to tick. */
+  function bundleOff(n){ return n >= 2 ? 100 + (n - 1) * 50 : 0; }
+  var ORDER    = ['castle','slide','white','softplay','bubble'];
   var lockSelect = false;   // true only while the visitor has chosen "not sure yet"
 
   /* Scoped to #kids on purpose: the CaRe IT pricing picker uses the same
@@ -3194,11 +3223,12 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
       lines.appendChild(li);
     });
 
-    var off = DISCOUNT[chosen.length] || 0;
+    var off = bundleOff(chosen.length);
 
     disc.hidden = !off;
     if(off){
-      discLbl.textContent = chosen.length === 3 ? 'All three together' : 'Two together';
+      discLbl.textContent = chosen.length === 2 ? 'Two together'
+                          : chosen.length + ' together';
       discAmt.textContent = '−' + rand(off);
     }
 
@@ -3243,7 +3273,7 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
     if(packSel && !lockSelect){
       var key = ORDER.filter(function(n){ return picked.indexOf(n) !== -1; }).join('+');
       var has = Array.prototype.some.call(packSel.options, function(o){ return o.value === key; });
-      packSel.value = has ? key : 'custom';
+      packSel.value = has ? key : 'mixed';
     }
   }
 
@@ -3257,7 +3287,7 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
   if(packSel){
     packSel.addEventListener('change', function(){
       var v = packSel.value;
-      if(v === 'custom'){
+      if(v === 'custom' || v === 'mixed'){
         lockSelect = true;          // "not sure yet" - leave their picks alone
       } else {
         lockSelect = false;
@@ -3340,6 +3370,17 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
     if(!el || el.selectedIndex < 0) return '';
     return (el.options[el.selectedIndex].textContent || '').replace(/\s+/g,' ').trim();
   }
+  /* Read the picker itself rather than the dropdown. With five items there
+     are thirty-one combinations and the dropdown only names a few, so it
+     falls back to "custom" - which would have told us "not sure yet" for
+     someone who had ticked three castles. */
+  function picked(){
+    var on = Array.prototype.slice.call(
+      document.querySelectorAll('#kids .opt-input:not(.wk):not(.wcare)')
+    ).filter(function(o){ return o.checked; });
+    if(on.length) return on.map(function(o){ return o.dataset.label; }).join(' + ');
+    return label('qpack');
+  }
   function text(id){
     var el = document.getElementById(id);
     return el && !el.hidden ? (el.textContent || '').replace(/\s+/g,' ').trim() : '';
@@ -3382,7 +3423,7 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
       'WhatsApp': phone,
       'Party date': pretty || date,
       'Suburb': where,
-      'Package': label('qpack'),
+      'Package': picked(),
       'Delivery': text('sumDelivAmt') || 'not calculated',
       'Total quoted': text('sumTotal') || 'not calculated',
       'Heard about us': label('qheard') || 'not answered',
