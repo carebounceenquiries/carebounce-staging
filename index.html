@@ -1378,7 +1378,8 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
       <div id="faq">
         <span class="eyebrow">Questions</span>
         <h2 style="font-size:clamp(26px,3.6vw,36px);margin-block:10px 14px">The ones we always get</h2>
-        <details open><summary>What if we need to cancel?</summary><p>Cancel more than 48 hours before your party and you get a full refund, no questions asked. Inside 48 hours the deposit is forfeited, because by then we have turned other bookings away for your date.</p></details>
+        <details open><summary>What if we need to cancel?</summary><p>Cancel more than 24 hours before your party and you get a full refund, no questions asked. Inside 24 hours we hold the deposit as a credit towards another date, valid for 12 months &mdash; we do not simply keep it. Anything you paid above the deposit comes back either way.</p></details>
+        <details><summary>What if it rains?</summary><p>We watch it with you. If the weather makes it unsafe to set up, we move your booking to another date rather than refund it &mdash; and if no date that suits you can be agreed within 60 days, you get the deposit back in full. Do not cancel because of the forecast: phone us, because the call on the day is ours, and a cancelled booking inside 24 hours is only a credit.</p></details>
         <details><summary>What does delivery cost?</summary><p>Free delivery for the first 15km. Between 15km and 30km it is R8 a kilometre for the distance past 15km, and beyond 30km it is R12 a kilometre for that furthest stretch. So a 25km run is R80 and a 40km run is R240. We tell you the figure when we quote.</p></details>
         <details><summary>How long do we have it for?<span></span></summary><p>The castles and soft play are yours for the day &mdash; we set up in the morning and collect once the party is over. The bubble house is a four-hour hire.</p></details>
         <details><summary>What surface do you need?</summary><p>Grass or sand, so we can peg every anchor point. Paving and tar are possible with ballast, but tell us when you book so we bring it.</p></details>
@@ -1655,8 +1656,10 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
       </ol>
 
       <h3>6. Cancelling</h3>
-      <p>Cancel more than 48 hours before your booking and your deposit is refunded in full. Cancel within 48 hours of the delivery time and the deposit is forfeited, because the date can no longer be filled.</p>
-      <p>If we have to call it off ourselves &mdash; equipment failure, or conditions we judge unsafe to set up in &mdash; you are refunded in full whenever that happens, including on the day.</p>
+      <p>Cancel more than 24 hours before the delivery time and your deposit is refunded in full, no questions asked. Cancel within 24 hours and the deposit is held as a credit towards another date, valid for 12 months &mdash; anything you have paid above the deposit is refunded.</p>
+      <p>No cancellation charge applies at all if the booking is cancelled because of the death or hospitalisation of the person the booking was made for. That is your right under section 17(5) of the Consumer Protection Act.</p>
+      <p>If the weather makes it unsafe to set up, we reschedule rather than refund, and we agree a new date with you. If no date that suits you can be agreed within 60 days, the deposit is refunded in full. Please do not cancel because of the forecast &mdash; phone us, because the call on the day is ours to make.</p>
+      <p>If we call it off for any other reason &mdash; equipment failure, or anything else on our side &mdash; you are refunded in full, whenever that happens, including on the day. Refunds go back to the account the deposit came from, within seven business days.</p>
 
       <h3>7. Damage, cleaning and loss</h3>
       <p>Fair wear is on us. Damage from misuse, or from breaking the rules in clause 5, is charged at repair cost. Units returned heavily soiled carry a cleaning fee. If a unit is stolen or destroyed while in your care, replacement cost applies.</p>
@@ -3103,7 +3106,7 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
       <div>
         <h4>Good to know</h4>
         <ul>
-          <li>Full refund if you cancel 48 hours ahead</li>
+          <li>Full refund if you cancel 24 hours ahead</li>
           <li>50% deposit holds your date</li>
           <li>Grass or sand for pegging</li>
           <li>Adult supervision required</li>
@@ -3115,7 +3118,7 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
     <div class="ftr-btm">
       <span>CaRe Bounce is a trading name of <b>CaRe Bounce Hire (Pty) Ltd</b> &middot;
         Reg. 2026/855134/07 &middot; Gauteng</span>
-      <span>Enquiries go to info@carebounce.co.za &middot; <b>build 134</b></span>
+      <span>Enquiries go to info@carebounce.co.za &middot; <b>build 137</b></span>
     </div>
   </div>
 </footer>
@@ -3403,7 +3406,11 @@ function cbDeliveryFee(km){
        that nobody has to retype what they just ticked */
     var names = chosen.map(function(o){ return o.dataset.label; }).join(', ');
     var sum   = names ? names + ' \u2014 ' + total.textContent : '';
-    if(form) form.dataset.sel = sum;
+    if(form){
+      form.dataset.sel   = sum;              /* for WhatsApp and the line below */
+      form.dataset.items = names;            /* the hire, with no travel in it */
+      form.dataset.total = chosen.length ? total.textContent : '';
+    }
     if(pickedEl){
       pickedEl.textContent = '';
       if(sum){
@@ -3503,7 +3510,8 @@ function cbDeliveryFee(km){
         'Suburb': where,
         'Delivery': dAmt && !dRow.hidden ? dAmt.textContent : 'not calculated',
         'Occasion': sel('xoccasion') || 'not answered',
-        'Interested in': form.dataset.sel || 'nothing ticked',
+        'Interested in': form.dataset.items || 'nothing ticked',
+        'Total quoted': form.dataset.total || 'not calculated',
         'Notes': v('xnote') || '-',
         '_subject': 'TEST (staging) - Experience enquiry - ' + name + ', ' + (pretty || date) + ', ' + where,
         '_template': 'table',
