@@ -1074,7 +1074,7 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
 
 <section class="wrap section" id="quote" style="padding-block:72px">
   <div class="quote">
-    <div class="head" style="margin-bottom:0">
+    <div class="head" id="quoteHead" style="margin-bottom:0">
       <span class="eyebrow">Check your date</span>
       <h2>Tell us when and where</h2>
       <p>No payment now. Pick your suburb and the delivery fee works itself out in the total above, so you see the whole price before you send anything. We come back the same day with a yes or a no on the date.</p>
@@ -3403,6 +3403,8 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
     .then(function(){
       msg.textContent = name + ', we will come back to you on WhatsApp today to confirm '
         + (pretty || 'the date') + ' in ' + where + '.';
+      var headEl = document.getElementById('quoteHead');
+      if(headEl) headEl.hidden = true;   /* the instructions go with the form */
       form.hidden = true;
       done.hidden = false;
       done.scrollIntoView({behavior:'smooth', block:'center'});
