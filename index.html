@@ -1,33 +1,9 @@
+<!doctype html>
+<html lang="en-ZA">
+<head>
 <meta charset="utf-8">
 <meta name="robots" content="noindex,nofollow">
 <title>CaRe Bounce - jumping castle, soft play and bubble house hire, Gauteng</title>
-<!-- ===================================================================
-     HOSTING THIS FILE
-     The artifact viewer wraps this page in a document skeleton. On your own
-     host it needs its own, so save it as index.html starting with:
-
-       <!doctype html>
-       <html lang="en-ZA">
-       <head>
-       ... everything from here down to </style> ...
-       </head>
-       <body>
-<div style="background:#B3331F;color:#fff;font:700 14px/1.5 system-ui,sans-serif;
-     padding:10px 16px;text-align:center;letter-spacing:.02em">
-  STAGING COPY &mdash; not the live site. Enquiries from here arrive tagged TEST.
-  The live site is <a href="https://carebounce.co.za" style="color:#fff">carebounce.co.za</a>
-</div>
-       ... the rest ...
-       </body></html>
-
-     Then add two files beside it:
-       robots.txt   ->  User-agent: *
-                        Allow: /
-                        Sitemap: https://carebounce.co.za/sitemap.xml
-       sitemap.xml  ->  one <url> entry per real page
-     And put a 1200x630 share image at /share.jpg, or the link previews
-     below will show no picture.
-     =================================================================== -->
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Jumping castle, soft play and bubble house hire across Centurion, Midrand, Pretoria, Sandton, Fourways and Bryanston. Live pricing, delivery worked out from your suburb, R5 million public liability cover. Set up in the morning, collected the same day.">
 <meta name="theme-color" content="#FFF8EE">
@@ -294,9 +270,18 @@ input:focus,select:focus{border-color:var(--sky);outline:none}
 #experiences .opts{gap:0}
 #experiences .opt-card{background:transparent;border:0;border-top:1px solid var(--line);
   border-radius:0;box-shadow:none;padding:30px 2px;align-items:baseline;gap:32px}
-#experiences .opt-card:last-child{border-bottom:1px solid var(--line)}
-#experiences .opt{cursor:default}
-#experiences .opt:hover .opt-card{transform:none}
+#experiences .opt:last-of-type .opt-card{border-bottom:1px solid var(--line)}
+/* the list is pickable now, so it needs the affordances - stated in this
+   section's own voice: a rule down the left edge, not a coral box */
+#experiences .opt{cursor:pointer}
+#experiences .opt:hover .opt-card{transform:none;background:var(--sunk)}
+#experiences .opt-card{padding:30px 2px 30px 15px}
+#experiences .opt-check{align-self:flex-start;margin-top:7px;width:24px;height:24px;border-radius:2px}
+#experiences .opt-input:checked + .opt-card{box-shadow:inset 3px 0 0 var(--coral)}
+#experiences .opt-input:focus-visible + .opt-card{outline:2px solid var(--sky);outline-offset:2px}
+#experiences .picker{gap:34px}
+#experiences .sum-lines li,#experiences .sum-total strong{font-family:var(--serif)}
+#experiences .sum-total strong{font-weight:300}
 #experiences .svc-grid{gap:0 44px}
 #experiences .svc{background:transparent;border:0;border-top:1px solid var(--line);
   border-radius:0;padding:26px 2px 30px}
@@ -864,7 +849,13 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
 
 
 </style>
-
+</head>
+<body>
+<div style="background:#B3331F;color:#fff;font:700 14px/1.5 system-ui,-apple-system,sans-serif;
+     padding:11px 16px;text-align:center;letter-spacing:.02em;position:relative;z-index:200">
+  STAGING COPY &mdash; not the live site. Enquiries sent from here arrive marked TEST.
+  The live site is <a href="https://carebounce.co.za" style="color:#fff">carebounce.co.za</a>
+</div>
 <header class="hdr">
   <div class="wrap hdr-in">
     <a class="brand" href="#top">
@@ -1428,44 +1419,78 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
       <div class="head">
         <span class="eyebrow">What we bring</span>
         <h2>Three pieces, and none of them is red</h2>
-        <p>They come from the same fleet we hire to families, kept and cleaned to the same standard. What changes is how they look and how they are set.</p>
+        <p>They come from the same fleet we hire to families, kept and cleaned to the same standard. What changes is how they look and how they are set. Take two pieces and <strong>R250</strong> comes off, then <strong>R150</strong> more for every one after that &mdash; it all travels on one delivery.</p>
       </div>
 
-      <div class="opts" style="gap:18px">
-        <div class="opt-card" style="border-color:var(--line)">
-          <span class="opt-body">
-            <span class="opt-name">The white castle</span>
-            <span class="opt-note">A jumping castle in plain white, no primary colours anywhere on it. It photographs the way the rest of your day does, and grown-ups can use it &mdash; which at a wedding they will.</span>
+      <div class="picker">
+        <div class="opts">
+
+        <label class="opt" for="optXWhite">
+          <input type="checkbox" id="optXWhite" class="opt-input" data-price="850" data-label="The white castle" data-value="xwhite">
+          <span class="opt-card">
+            <span class="opt-check" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#1B2A4A" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+            <span class="opt-body">
+              <span class="opt-name">The white castle</span>
+              <span class="opt-note">A jumping castle in plain white, no primary colours anywhere on it. It photographs the way the rest of your day does, and grown-ups can use it &mdash; which at a wedding they will.</span>
+            </span>
+            <span class="opt-cost">R850</span>
           </span>
-          <span class="opt-cost">R850</span>
+        </label>
+
+        <label class="opt" for="optXBubble">
+          <input type="checkbox" id="optXBubble" class="opt-input" data-price="1395" data-label="The bubble house" data-value="xbubble">
+          <span class="opt-card">
+            <span class="opt-check" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#1B2A4A" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+            <span class="opt-body">
+              <span class="opt-name">The bubble house</span>
+              <span class="opt-note">A clear inflatable dome. Suited to photoshoots and gender reveals.</span>
+            </span>
+            <span class="opt-cost">R1 395</span>
+          </span>
+        </label>
+
+        <label class="opt" for="optXTent">
+          <input type="checkbox" id="optXTent" class="opt-input" data-price="2950" data-label="The pop-up bubble tent" data-value="xtent" checked>
+          <span class="opt-card">
+            <span class="opt-check" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#1B2A4A" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+            <span class="opt-body">
+              <span class="opt-name">The pop-up bubble tent</span>
+              <span class="opt-note">Dressed for the evening: a picnic lounge inside it, flowers, and LED candles ringing the whole thing in soft light. Priced for two. We bring it, we build it, and we take it away again.</span>
+            </span>
+            <span class="opt-cost">R2 950</span>
+          </span>
+        </label>
+
+        <label class="opt" for="optXBasket">
+          <input type="checkbox" id="optXBasket" class="opt-input addon" data-price="600" data-label="The basket" data-value="xbasket">
+          <span class="opt-card">
+            <span class="opt-check" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#1B2A4A" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+            <span class="opt-body">
+              <span class="opt-name">The basket</span>
+              <span class="opt-note">A basket of nibbles to share, waiting for you inside the tent. Tick it and the tent comes with it. It saves you the shopping on the day.</span>
+            </span>
+            <span class="opt-cost">R600</span>
+          </span>
+        </label>
+
+          <p class="opt-incl">Delivery, setup and collection included. Free delivery for the first 15km, then the same rates as the rest of our hire. The basket is food we buy for you on the day, so it is never discounted.</p>
+
         </div>
 
-        <div class="opt-card" style="border-color:var(--line)">
-          <span class="opt-body">
-            <span class="opt-name">The bubble house</span>
-            <span class="opt-note">A clear inflatable dome. Suited to photoshoots and gender reveals.</span>
-          </span>
-          <span class="opt-cost">R1 395</span>
-        </div>
-
-        <div class="opt-card" style="border-color:var(--line)">
-          <span class="opt-body">
-            <span class="opt-name">The set-up</span>
-            <span class="opt-note">The pop-up bubble tent dressed for the evening: a picnic lounge inside it, flowers, and LED candles ringing the whole thing in soft light. Priced for two. We bring it, we build it, and we take it away again.</span>
-          </span>
-          <span class="opt-cost">R2 950</span>
-        </div>
-
-        <div class="opt-card" style="border-color:var(--line)">
-          <span class="opt-body">
-            <span class="opt-name">The set-up, with a basket</span>
-            <span class="opt-note">Everything above, and a basket of nibbles to share waiting for you inside. The basket is R600 of the price, and it saves you the shopping on the day.</span>
-          </span>
-          <span class="opt-cost">R3 550</span>
-        </div>
+        <aside class="summary">
+          <span class="eyebrow">Your occasion</span>
+          <ul class="sum-lines" id="xsumLines"></ul>
+          <div class="sum-disc" id="xsumDisc" hidden>
+            <span id="xsumDiscLabel">Two together</span><span id="xsumDiscAmt">&minus;R250</span>
+          </div>
+          <div class="sum-total">
+            <span>Total</span>
+            <strong id="xsumTotal">R2 950</strong>
+          </div>
+          <p class="sum-note" id="xsumNote">Delivery, setup and collection included.</p>
+          <a class="btn btn-coral" id="xsumBtn" href="#exp-enquire">Enquire about this</a>
+        </aside>
       </div>
-
-      <p class="opt-incl">Delivery, setup and collection included. Free delivery for the first 15km, then the same rates as the rest of our hire.</p>
     </div>
   </section>
 
@@ -1499,8 +1524,8 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
         <p>These are quoted one at a time, because no two are the same. Send us the date, the place and roughly what you are picturing, and we will come back with a price and what it includes.</p>
       </div>
       <div class="svc-contact">
-        <span>WhatsApp <a href="https://wa.me/27650782754" target="_blank" rel="noopener">065 078 2754</a></span>
-        <span>Email <a href="mailto:info@carebounce.co.za">info@carebounce.co.za</a></span>
+        <span>WhatsApp <a id="expWa" href="https://wa.me/27650782754" target="_blank" rel="noopener">065 078 2754</a></span>
+        <span>Email <a id="expMail" href="mailto:info@carebounce.co.za">info@carebounce.co.za</a></span>
       </div>
     </div>
   </section>
@@ -3174,6 +3199,90 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
 
   window.addEventListener('hashchange', render);
   render();
+})();
+
+/* ---- experiences picker: same mechanics as the party one ---- */
+(function(){
+  /* R250 off two pieces, then R150 more for each one after that. The basket
+     never counts and is never discounted - it is food we actually go and buy,
+     so a rand off it is a rand of real cash, not a rand of spare capacity. */
+  function bundleOff(n){ return n >= 2 ? 100 + (n - 1) * 150 : 0; }
+
+  var opts  = Array.prototype.slice.call(document.querySelectorAll('#exp-hire .opt-input'));
+  var lines = document.getElementById('xsumLines');
+  if(!opts.length || !lines) return;
+
+  var disc    = document.getElementById('xsumDisc');
+  var discLbl = document.getElementById('xsumDiscLabel');
+  var discAmt = document.getElementById('xsumDiscAmt');
+  var total   = document.getElementById('xsumTotal');
+  var note    = document.getElementById('xsumNote');
+  var btn     = document.getElementById('xsumBtn');
+  var tent    = document.getElementById('optXTent');
+  var basket  = document.getElementById('optXBasket');
+  var wa      = document.getElementById('expWa');
+  var mail    = document.getElementById('expMail');
+
+  /* thousands take a space, South African style, never a comma */
+  function rand(n){ return 'R' + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' '); }
+
+  function update(){
+    var chosen = opts.filter(function(o){ return o.checked; });
+    var pieces = chosen.filter(function(o){ return !o.classList.contains('addon'); });
+
+    lines.textContent = '';
+    var list = 0;
+    chosen.forEach(function(o){
+      list += Number(o.dataset.price);
+      var li = document.createElement('li');
+      var a = document.createElement('span'); a.textContent = o.dataset.label;
+      var b = document.createElement('span'); b.textContent = rand(Number(o.dataset.price));
+      li.appendChild(a); li.appendChild(b);
+      lines.appendChild(li);
+    });
+
+    var off = bundleOff(pieces.length);
+    disc.hidden = !off;
+    if(off){
+      discLbl.textContent = pieces.length === 2 ? 'Two together'
+                          : pieces.length + ' together';
+      discAmt.textContent = '\u2212' + rand(off);
+    }
+
+    if(!chosen.length){
+      total.textContent = '\u2014';
+      note.textContent = 'Choose at least one to see your price.';
+      btn.setAttribute('aria-disabled','true');
+    } else {
+      total.textContent = rand(list - off);
+      note.textContent = off
+        ? 'You saved ' + rand(off) + '. Delivery is free for the first 15km.'
+        : 'Delivery is free for the first 15km. Add a second piece and R250 comes off.';
+      btn.removeAttribute('aria-disabled');
+    }
+
+    /* the enquiry links below carry the selection, so nobody retypes it */
+    var names = chosen.map(function(o){ return o.dataset.label; }).join(', ');
+    var sum   = names ? names + ' \u2014 ' + total.textContent : '';
+    if(wa){
+      wa.href = 'https://wa.me/27650782754' + (sum ? '?text=' + encodeURIComponent(
+        'Hi CaRe Bounce, I would like to enquire about: ' + sum + '.') : '');
+    }
+    if(mail){
+      mail.href = 'mailto:info@carebounce.co.za' + (sum ? '?subject='
+        + encodeURIComponent('Experience enquiry') + '&body=' + encodeURIComponent(
+          'Hi CaRe Bounce,\n\nI would like to enquire about: ' + sum
+          + '.\n\nDate:\nPlace:\n\nThank you.') : '');
+    }
+  }
+
+  /* the basket only exists inside the tent, so the two move together */
+  if(basket && tent){
+    basket.addEventListener('change', function(){ if(basket.checked) tent.checked = true; });
+    tent.addEventListener('change', function(){ if(!tent.checked) basket.checked = false; });
+  }
+  opts.forEach(function(o){ o.addEventListener('change', update); });
+  update();
 })();
 
 /* ---- package picker: live total, discount shown before checkout ---- */
@@ -5071,3 +5180,5 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
   render();
 })();
 </script>
+</body>
+</html>
