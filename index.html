@@ -976,7 +976,7 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
       <div class="hero-cta">
         <a class="btn btn-primary" href="#packages">Build your party</a>
         <a class="btn btn-ghost" href="#safety">Why us</a>
-        <span class="pricechip">Save up to R300!</span>
+        <span class="pricechip">10% off two or more</span>
       </div>
       <div class="trustbar">
         <span class="trust"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#35B6D6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> R5 million cover</span>
@@ -1019,7 +1019,7 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
     <div class="head">
       <span class="eyebrow">Build your party</span>
       <h2>Pick what you want. The price updates as you go.</h2>
-      <p>Hire any of them on their own. Take two and <strong>R150</strong> comes off, then <strong>R50</strong> more for every one after that. It all travels on one delivery &mdash; we set up in the morning and collect the same day.</p>
+      <p>Hire any of them on their own. Take two or more and <strong>10%</strong> comes off the whole lot. It all travels on one delivery &mdash; we set up in the morning and collect the same day.</p>
     </div>
 
     <div class="picker">
@@ -1093,7 +1093,7 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
         <span class="eyebrow">Your party</span>
         <ul class="sum-lines" id="sumLines"></ul>
         <div class="sum-disc" id="sumDisc" hidden>
-          <span id="sumDiscLabel">Two together</span><span id="sumDiscAmt">&minus;R150</span>
+          <span id="sumDiscLabel">Two together &mdash; 10% off</span><span id="sumDiscAmt">&minus;R165</span>
         </div>
         <div class="sum-deliv" id="sumDeliv" hidden>
           <span id="sumDelivLabel">Delivery fee</span><span id="sumDelivAmt">R0</span>
@@ -1237,7 +1237,7 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
       <p style="color:var(--muted);font-size:17.5px">Toddlers get bounced off their feet by bigger children, so most parties end with a crying two-year-old and a parent standing guard at the entrance.</p>
       <p style="color:var(--muted);font-size:17.5px;margin-top:14px">Our soft play set gives them their own patch: a ball pit, foam climbing shapes and padded mats, laid out beside the castle. It also sets up indoors, which matters when a Highveld thunderstorm arrives at three o&rsquo;clock.</p>
       <div class="hero-cta" style="margin-top:24px">
-        <a class="btn btn-coral" id="addSoft" href="#packages">Save R150 if you add soft play to a castle</a>
+        <a class="btn btn-coral" id="addSoft" href="#packages">Add soft play to a castle and 10% comes off</a>
       </div>
     </div>
   </div>
@@ -1443,7 +1443,7 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
       <div class="head">
         <span class="eyebrow">What we bring</span>
         <h2>Three pieces, and none of them is red</h2>
-        <p>They come from the same fleet we hire to families, kept and cleaned to the same standard. What changes is how they look and how they are set. Take two pieces and <strong>R250</strong> comes off, then <strong>R150</strong> more for every one after that &mdash; it all travels on one delivery.</p>
+        <p>They come from the same fleet we hire to families, kept and cleaned to the same standard. What changes is how they look and how they are set. Take two or more and <strong>10%</strong> comes off the whole lot &mdash; it all travels on one delivery.</p>
       </div>
 
       <div class="picker">
@@ -1505,7 +1505,7 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
           <span class="eyebrow">Your occasion</span>
           <ul class="sum-lines" id="xsumLines"></ul>
           <div class="sum-disc" id="xsumDisc" hidden>
-            <span id="xsumDiscLabel">Two together</span><span id="xsumDiscAmt">&minus;R250</span>
+            <span id="xsumDiscLabel">Two together &mdash; 10% off</span><span id="xsumDiscAmt">&minus;R225</span>
           </div>
           <div class="sum-deliv" id="xsumDeliv" hidden>
             <span id="xsumDelivLabel">Delivery fee</span><span id="xsumDelivAmt">R0</span>
@@ -3118,7 +3118,7 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
     <div class="ftr-btm">
       <span>CaRe Bounce is a trading name of <b>CaRe Bounce Hire (Pty) Ltd</b> &middot;
         Reg. 2026/855134/07 &middot; Gauteng</span>
-      <span>Enquiries go to info@carebounce.co.za &middot; <b>build 139</b></span>
+      <span>Enquiries go to info@carebounce.co.za &middot; <b>build 140</b></span>
     </div>
   </div>
 </footer>
@@ -3294,10 +3294,13 @@ function cbDeliveryFee(km){
 
 /* ---- experiences picker: same mechanics as the party one ---- */
 (function(){
-  /* R250 off two pieces, then R150 more for each one after that. These are
-     our numbers, not a published trade rate - change them here and the panel,
-     the lede and the saved-you line all follow. */
-  function bundleOff(n){ return n >= 2 ? 100 + (n - 1) * 150 : 0; }
+  /* One rule for the whole business: 10% off the lot once two or more are
+     taken. It used to be a rand ladder, and Kids ran a different ladder, so
+     the white castle and the bubble house - which are on both pages at the
+     same price - came to two different totals depending on which page you
+     booked from. A percentage is the same everywhere and needs no new number
+     when a castle is added. */
+  function bundleOff(n, subtotal){ return n >= 2 ? Math.round(subtotal * 0.10) : 0; }
 
   var opts  = Array.prototype.slice.call(document.querySelectorAll('#exp-hire .opt-input'));
   var lines = document.getElementById('xsumLines');
@@ -3357,11 +3360,11 @@ function cbDeliveryFee(km){
       lines.appendChild(li);
     });
 
-    var off = bundleOff(pieces.length);
+    var off = bundleOff(pieces.length, list);
     disc.hidden = !off;
     if(off){
-      discLbl.textContent = pieces.length === 2 ? 'Two together'
-                          : pieces.length + ' together';
+      discLbl.textContent = (pieces.length === 2 ? 'Two together' :
+                             pieces.length + ' together') + ' \u2014 10% off';
       discAmt.textContent = '\u2212' + rand(off);
     }
 
@@ -3398,7 +3401,7 @@ function cbDeliveryFee(km){
       total.textContent = rand(list - off + carriage);
       note.textContent = off
         ? 'You saved ' + rand(off) + '. Delivery is free for the first 15km.'
-        : 'Delivery is free for the first 15km. Add a second piece and R250 comes off.';
+        : 'Delivery is free for the first 15km. Add a second piece and 10% comes off.';
       btn.removeAttribute('aria-disabled');
     }
 
@@ -3557,10 +3560,10 @@ function cbDeliveryFee(km){
 
 /* ---- package picker: live total, discount shown before checkout ---- */
 (function(){
-  /* R150 off two items, then R50 more for each one after that. The old
-     table was {2:150, 3:200}; the formula gives the same answers and does
-     not quietly pay nothing once there are more than three things to tick. */
-  function bundleOff(n){ return n >= 2 ? 100 + (n - 1) * 50 : 0; }
+  /* The same 10% rule the Experiences picker uses. Kept as its own copy
+     because the two pickers are separate closures; if one changes, change
+     both, or the shared items disagree again. */
+  function bundleOff(n, subtotal){ return n >= 2 ? Math.round(subtotal * 0.10) : 0; }
   var ORDER    = ['castle','slide','white','softplay','bubble'];
   var lockSelect = false;   // true only while the visitor has chosen "not sure yet"
 
@@ -3614,12 +3617,12 @@ function cbDeliveryFee(km){
       lines.appendChild(li);
     });
 
-    var off = bundleOff(chosen.length);
+    var off = bundleOff(chosen.length, list);
 
     disc.hidden = !off;
     if(off){
-      discLbl.textContent = chosen.length === 2 ? 'Two together'
-                          : chosen.length + ' together';
+      discLbl.textContent = (chosen.length === 2 ? 'Two together' :
+                             chosen.length + ' together') + ' \u2014 10% off';
       discAmt.textContent = '−' + rand(off);
     }
 
@@ -3656,7 +3659,7 @@ function cbDeliveryFee(km){
       total.textContent = rand(list - off + carriage);
       note.textContent = off
         ? 'You saved ' + rand(off) + ' on the bundle. Free delivery for the first 15km.'
-        : 'Free delivery for the first 15km. Add a second item and R150 comes off.';
+        : 'Free delivery for the first 15km. Add a second item and 10% comes off.';
       btn.removeAttribute('aria-disabled');
     }
 
