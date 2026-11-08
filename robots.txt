@@ -1,0 +1,4 @@
+# STAGING ONLY - do NOT upload this file to the live repo.
+# The live robots.txt allows crawling; this one forbids it.
+User-agent: *
+Disallow: /
