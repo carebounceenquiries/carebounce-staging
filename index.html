@@ -286,10 +286,31 @@ input:focus,select:focus{border-color:var(--sky);outline:none}
 #experiences .svc{background:transparent;border:0;border-top:1px solid var(--line);
   border-radius:0;padding:26px 2px 30px}
 #experiences .opt-incl{margin-top:26px}
-#experiences .svc-cta h4{color:#FFF8EE}
-#experiences .svc-cta p{color:#C3D0E6}
 #experiences .scene{border-radius:2px}
 #experiences .head{max-width:40rem}
+
+/* the enquiry form - the panel it replaced put navy text on a navy card, so
+   its phone number and email address were invisible from the day it shipped */
+#experiences .xquote{background:var(--surface);border:1px solid var(--line);
+  border-radius:2px;padding:clamp(26px,4vw,44px);margin-top:34px}
+#experiences .xquote .field > label{font-weight:400;font-size:12px;letter-spacing:2.4px;
+  text-transform:uppercase;color:var(--muted)}
+#experiences .xquote input,#experiences .xquote select,#experiences .xquote textarea{
+  font-family:var(--sans-fine);font-weight:300;font-size:16px;color:var(--ink);
+  background:var(--cream);border:1px solid var(--line);border-radius:2px;
+  padding:13px 14px;width:100%}
+#experiences .xquote textarea{resize:vertical;min-height:86px;line-height:1.6}
+#experiences .xquote input:focus,#experiences .xquote select:focus,
+#experiences .xquote textarea:focus{border-color:var(--ink);outline:none}
+#experiences .xpicked{margin-top:22px;border-top:1px solid var(--line);padding-top:16px;
+  font-size:14.5px;color:var(--muted);line-height:1.65}
+#experiences .xpicked b{color:var(--ink);font-weight:400}
+#experiences .xalt{align-self:center;color:var(--muted);font-size:14.5px;line-height:1.6}
+#experiences .xalt a{color:var(--ink);font-weight:400;text-decoration:underline;
+  text-underline-offset:3px}
+#experiences .done{border-radius:2px;color:#1B2A4A}
+#experiences .done h3{font-family:var(--serif);font-weight:400;font-size:24px}
+#experiences .form-err{border-radius:2px}
 
 /* the chooser card previews that voice */
 .choose.exp .choose-h{font-family:var(--serif);font-weight:300;letter-spacing:0;font-size:clamp(28px,3.6vw,36px)}
@@ -402,6 +423,8 @@ input:focus,select:focus{border-color:var(--sky);outline:none}
 .summary .eyebrow{color:#9FB3D4}
 .sum-lines{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
 .sum-lines li{display:flex;justify-content:space-between;gap:14px;font-size:15.5px;color:#C3D0E6;font-variant-numeric:tabular-nums}
+/* a long item name must not split the rand figure beside it over two lines */
+.sum-lines li span:last-child{flex:none;white-space:nowrap}
 .sum-disc{display:flex;justify-content:space-between;gap:14px;font-weight:800;font-size:15px;
   color:#1B2A4A;background:var(--sun);border-radius:10px;padding:10px 13px}
 .sum-total{display:flex;justify-content:space-between;align-items:baseline;gap:14px;
@@ -1450,11 +1473,11 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
         </label>
 
         <label class="opt" for="optXTent">
-          <input type="checkbox" id="optXTent" class="opt-input" data-price="2950" data-label="The pop-up bubble tent" data-value="xtent" checked>
+          <input type="checkbox" id="optXTent" class="opt-input" data-price="2950" data-label="The romantic pop-up bubble tent" data-value="xtent" checked>
           <span class="opt-card">
             <span class="opt-check" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#1B2A4A" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
             <span class="opt-body">
-              <span class="opt-name">The pop-up bubble tent</span>
+              <span class="opt-name">The romantic pop-up bubble tent</span>
               <span class="opt-note">Dressed for the evening: a picnic lounge inside it, flowers, and LED candles ringing the whole thing in soft light. Priced for two. We bring it, we build it, and we take it away again.</span>
             </span>
             <span class="opt-cost">R2 950</span>
@@ -1462,18 +1485,18 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
         </label>
 
         <label class="opt" for="optXBasket">
-          <input type="checkbox" id="optXBasket" class="opt-input addon" data-price="600" data-label="The basket" data-value="xbasket">
+          <input type="checkbox" id="optXBasket" class="opt-input" data-price="3550" data-label="The romantic pop-up bubble tent + the basket" data-value="xbasket">
           <span class="opt-card">
             <span class="opt-check" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#1B2A4A" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
             <span class="opt-body">
-              <span class="opt-name">The basket</span>
-              <span class="opt-note">A basket of nibbles to share, waiting for you inside the tent. Tick it and the tent comes with it. It saves you the shopping on the day.</span>
+              <span class="opt-name">The romantic pop-up bubble tent + the basket</span>
+              <span class="opt-note">Everything above, and a basket of nibbles to share waiting for you inside. The basket is R600 of the price, and it saves you the shopping on the day. Tick this one instead of the tent above, not as well.</span>
             </span>
-            <span class="opt-cost">R600</span>
+            <span class="opt-cost">R3 550</span>
           </span>
         </label>
 
-          <p class="opt-incl">Delivery, setup and collection included. Free delivery for the first 15km, then the same rates as the rest of our hire. The basket is food we buy for you on the day, so it is never discounted.</p>
+          <p class="opt-incl">Delivery, setup and collection included. Free delivery for the first 15km, then the same rates as the rest of our hire. The two tent options are the same tent &mdash; pick one or the other.</p>
 
         </div>
 
@@ -1518,14 +1541,57 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
       </div>
     </div>
 
-    <div class="svc-cta" id="exp-enquire" style="margin-top:28px">
-      <div>
-        <h4>Tell us about the occasion</h4>
-        <p>These are quoted one at a time, because no two are the same. Send us the date, the place and roughly what you are picturing, and we will come back with a price and what it includes.</p>
+    <div class="xquote" id="exp-enquire">
+      <div class="head" id="xHead" style="margin-bottom:0">
+        <span class="eyebrow">Tell us about the occasion</span>
+        <h2>The date, the place, and what you are picturing</h2>
+        <p>No payment now. These are quoted one at a time, because no two are the same. Send it through and we come back the same day with the price and what it includes.</p>
       </div>
-      <div class="svc-contact">
-        <span>WhatsApp <a id="expWa" href="https://wa.me/27650782754" target="_blank" rel="noopener">065 078 2754</a></span>
-        <span>Email <a id="expMail" href="mailto:info@carebounce.co.za">info@carebounce.co.za</a></span>
+
+      <form id="xForm" novalidate>
+        <div class="fields">
+          <div class="field"><label for="xname">Your name</label>
+            <input id="xname" name="name" type="text" autocomplete="name" required></div>
+          <div class="field"><label for="xphone">WhatsApp number</label>
+            <input id="xphone" name="phone" type="tel" autocomplete="tel" placeholder="082 000 0000" required></div>
+          <div class="field"><label for="xdate">The date</label>
+            <input id="xdate" name="date" type="date" class="dateint" required></div>
+          <div class="field"><label for="xwhere">Suburb or venue</label>
+            <input id="xwhere" name="where" type="text" placeholder="Centurion, or the name of the venue" required></div>
+
+          <div class="field full"><label for="xoccasion">What is the occasion?</label>
+            <select id="xoccasion" name="occasion">
+              <option value="" selected>Choose one&hellip;</option>
+              <option>A proposal</option>
+              <option>A date night</option>
+              <option>An anniversary</option>
+              <option>A wedding</option>
+              <option>A photoshoot</option>
+              <option>A gender reveal</option>
+              <option>Something else</option>
+            </select>
+          </div>
+
+          <div class="field full"><label for="xnote">Anything else we should know?</label>
+            <textarea id="xnote" name="note" rows="3" placeholder="Timing, access, what you are picturing. Optional."></textarea>
+          </div>
+        </div>
+
+        <p class="xpicked" id="xPicked"></p>
+
+        <input type="text" name="_honey" id="xHoney" tabindex="-1" autocomplete="off"
+               aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+        <p class="form-err" id="xErr" hidden></p>
+
+        <div class="hero-cta" style="margin-top:24px">
+          <button class="btn btn-primary" type="submit" id="xSend">Send it through</button>
+          <span class="xalt">Or WhatsApp <a id="expWa" href="https://wa.me/27650782754" target="_blank" rel="noopener">065 078 2754</a>, or email <a id="expMail" href="mailto:info@carebounce.co.za">info@carebounce.co.za</a></span>
+        </div>
+      </form>
+
+      <div class="done" id="xDone" hidden>
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#1B2A4A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M20 6 9 17l-5-5"/></svg>
+        <div><h3>Got it &mdash; thank you</h3><p id="xMsg"></p></div>
       </div>
     </div>
   </section>
@@ -3036,7 +3102,7 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
     <div class="ftr-btm">
       <span>CaRe Bounce is a trading name of <b>CaRe Bounce Hire (Pty) Ltd</b> &middot;
         Reg. 2026/855134/07 &middot; Gauteng</span>
-      <span>Design preview &mdash; the form is not connected yet &middot; <b>build 114</b></span>
+      <span>Enquiries go to info@carebounce.co.za &middot; <b>build 133</b></span>
     </div>
   </div>
 </footer>
@@ -3203,9 +3269,9 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
 
 /* ---- experiences picker: same mechanics as the party one ---- */
 (function(){
-  /* R250 off two pieces, then R150 more for each one after that. The basket
-     never counts and is never discounted - it is food we actually go and buy,
-     so a rand off it is a rand of real cash, not a rand of spare capacity. */
+  /* R250 off two pieces, then R150 more for each one after that. These are
+     our numbers, not a published trade rate - change them here and the panel,
+     the lede and the saved-you line all follow. */
   function bundleOff(n){ return n >= 2 ? 100 + (n - 1) * 150 : 0; }
 
   var opts  = Array.prototype.slice.call(document.querySelectorAll('#exp-hire .opt-input'));
@@ -3222,13 +3288,15 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
   var basket  = document.getElementById('optXBasket');
   var wa      = document.getElementById('expWa');
   var mail    = document.getElementById('expMail');
+  var form      = document.getElementById('xForm');
+  var pickedEl  = document.getElementById('xPicked');
 
   /* thousands take a space, South African style, never a comma */
   function rand(n){ return 'R' + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' '); }
 
   function update(){
     var chosen = opts.filter(function(o){ return o.checked; });
-    var pieces = chosen.filter(function(o){ return !o.classList.contains('addon'); });
+    var pieces = chosen;
 
     lines.textContent = '';
     var list = 0;
@@ -3261,9 +3329,23 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
       btn.removeAttribute('aria-disabled');
     }
 
-    /* the enquiry links below carry the selection, so nobody retypes it */
+    /* the form below, and the two links beside it, carry the selection so
+       that nobody has to retype what they just ticked */
     var names = chosen.map(function(o){ return o.dataset.label; }).join(', ');
     var sum   = names ? names + ' \u2014 ' + total.textContent : '';
+    if(form) form.dataset.sel = sum;
+    if(pickedEl){
+      pickedEl.textContent = '';
+      if(sum){
+        pickedEl.appendChild(document.createTextNode('Sent with your enquiry: '));
+        var b = document.createElement('b'); b.textContent = sum;
+        pickedEl.appendChild(b);
+        pickedEl.appendChild(document.createTextNode('. Change it by ticking above.'));
+      } else {
+        pickedEl.textContent = 'Nothing ticked above yet. Tick what you are after and '
+          + 'it comes through with this.';
+      }
+    }
     if(wa){
       wa.href = 'https://wa.me/27650782754' + (sum ? '?text=' + encodeURIComponent(
         'Hi CaRe Bounce, I would like to enquire about: ' + sum + '.') : '');
@@ -3276,13 +3358,114 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
     }
   }
 
-  /* the basket only exists inside the tent, so the two move together */
+  /* both tent cards are the same tent. Ticking one unticks the other, so
+     nobody can build a quote that charges for the tent twice. */
   if(basket && tent){
-    basket.addEventListener('change', function(){ if(basket.checked) tent.checked = true; });
-    tent.addEventListener('change', function(){ if(!tent.checked) basket.checked = false; });
+    basket.addEventListener('change', function(){ if(basket.checked) tent.checked = false; });
+    tent.addEventListener('change', function(){ if(tent.checked) basket.checked = false; });
   }
   opts.forEach(function(o){ o.addEventListener('change', update); });
   update();
+
+  /* ---- the enquiry itself -----------------------------------------------
+     Same relay as the party form. GitHub Pages has no server, so FormSubmit
+     passes it to info@carebounce.co.za; if that is down the visitor is handed
+     WhatsApp with everything already typed, rather than losing the enquiry. */
+  if(form){
+    var ENDPOINT = 'https://formsubmit.co/ajax/info@carebounce.co.za';
+    var head  = document.getElementById('xHead');
+    var done  = document.getElementById('xDone');
+    var msg   = document.getElementById('xMsg');
+    var errEl = document.getElementById('xErr');
+    var send  = document.getElementById('xSend');
+    var honey = document.getElementById('xHoney');
+
+    function v(id){ var e = document.getElementById(id); return e ? (e.value || '').trim() : ''; }
+    function sel(id){
+      var e = document.getElementById(id);
+      if(!e || e.selectedIndex < 0 || !e.value) return '';
+      return (e.options[e.selectedIndex].textContent || '').trim();
+    }
+    function showErr(html){
+      if(!errEl) return;
+      errEl.innerHTML = html;
+      errEl.hidden = false;
+      errEl.scrollIntoView({behavior:'smooth', block:'center'});
+    }
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      if(form.dataset.sending === '1') return;   /* no double sends */
+      if(honey && honey.value) return;           /* a bot filled the hidden field */
+      if(errEl) errEl.hidden = true;
+
+      var name = v('xname'), phone = v('xphone'), date = v('xdate'), where = v('xwhere');
+
+      /* the form is novalidate, so say plainly what is still missing */
+      var need = [];
+      if(!name)  need.push('your name');
+      if(!phone) need.push('a WhatsApp number');
+      if(!date)  need.push('the date');
+      if(!where) need.push('the suburb or venue');
+      if(need.length){
+        showErr('We still need ' + (need.length > 1
+          ? need.slice(0,-1).join(', ') + ' and ' + need[need.length-1]
+          : need[0]) + '.');
+        return;
+      }
+
+      var pretty = '';
+      var d = new Date(date + 'T00:00:00');
+      if(!isNaN(d)) pretty = d.toLocaleDateString('en-ZA', {day:'numeric', month:'long', year:'numeric'});
+
+      var payload = {
+        'Name': name,
+        'WhatsApp': phone,
+        'Date': pretty || date,
+        'Where': where,
+        'Occasion': sel('xoccasion') || 'not answered',
+        'Interested in': form.dataset.sel || 'nothing ticked',
+        'Notes': v('xnote') || '-',
+        '_subject': 'TEST (staging) - Experience enquiry - ' + name + ', ' + (pretty || date) + ', ' + where,
+        '_template': 'table',
+        '_captcha': 'false'
+      };
+
+      form.dataset.sending = '1';
+      if(send){ send.textContent = 'Sending\u2026'; send.disabled = true; }
+
+      fetch(ENDPOINT, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+        body: JSON.stringify(payload)
+      })
+      .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function(){
+        msg.textContent = name + ', we will come back to you today about '
+          + (pretty || 'the date') + ' in ' + where + '.';
+        form.hidden = true;
+        if(head) head.hidden = true;
+        done.hidden = false;
+        done.scrollIntoView({behavior:'smooth', block:'center'});
+      })
+      .catch(function(){
+        var lines = ['Hi CaRe Bounce, I would like to enquire about an occasion.', '',
+          'Name: ' + name, 'WhatsApp: ' + phone, 'Date: ' + (pretty || date),
+          'Where: ' + where];
+        var oc = sel('xoccasion'); if(oc) lines.push('Occasion: ' + oc);
+        if(form.dataset.sel) lines.push('Interested in: ' + form.dataset.sel);
+        var nt = v('xnote'); if(nt) lines.push('', nt);
+        var url = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(lines.join('\n'));
+        showErr('That did not go through on our side. <a href="' + url + '" target="_blank" '
+          + 'rel="noopener">Send it on WhatsApp instead</a> &mdash; everything you typed is '
+          + 'already in the message, you only have to press send.');
+      })
+      .then(function(){
+        form.dataset.sending = '';
+        if(send){ send.textContent = 'Send it through'; send.disabled = false; }
+      });
+    });
+  }
 })();
 
 /* ---- package picker: live total, discount shown before checkout ---- */
