@@ -1506,6 +1506,9 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
           <div class="sum-disc" id="xsumDisc" hidden>
             <span id="xsumDiscLabel">Two together</span><span id="xsumDiscAmt">&minus;R250</span>
           </div>
+          <div class="sum-deliv" id="xsumDeliv" hidden>
+            <span id="xsumDelivLabel">Delivery fee</span><span id="xsumDelivAmt">R0</span>
+          </div>
           <div class="sum-total">
             <span>Total</span>
             <strong id="xsumTotal">R2 950</strong>
@@ -1556,8 +1559,18 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
             <input id="xphone" name="phone" type="tel" autocomplete="tel" placeholder="082 000 0000" required></div>
           <div class="field"><label for="xdate">The date</label>
             <input id="xdate" name="date" type="date" class="dateint" required></div>
-          <div class="field"><label for="xwhere">Suburb or venue</label>
-            <input id="xwhere" name="where" type="text" placeholder="Centurion, or the name of the venue" required></div>
+          <div class="field"><label for="xsuburb">Suburb</label>
+            <select id="xsuburb" name="suburb" required>
+              <option value="" selected>Choose your suburb&hellip;</option>
+            </select>
+            <span class="sub-fee" id="xSubFee" hidden></span>
+          </div>
+
+          <div class="field full" id="xOtherWrap" hidden>
+            <label for="xsuburbOther">Which suburb or venue?</label>
+            <input id="xsuburbOther" name="suburbOther" type="text" placeholder="Type the suburb, or the name of the venue">
+            <span style="font-size:13.5px;color:var(--muted)">A little outside our usual patch is often fine. We will quote you honestly on the travel.</span>
+          </div>
 
           <div class="field full"><label for="xoccasion">What is the occasion?</label>
             <select id="xoccasion" name="occasion">
@@ -3102,7 +3115,7 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
     <div class="ftr-btm">
       <span>CaRe Bounce is a trading name of <b>CaRe Bounce Hire (Pty) Ltd</b> &middot;
         Reg. 2026/855134/07 &middot; Gauteng</span>
-      <span>Enquiries go to info@carebounce.co.za &middot; <b>build 133</b></span>
+      <span>Enquiries go to info@carebounce.co.za &middot; <b>build 134</b></span>
     </div>
   </div>
 </footer>
@@ -3267,6 +3280,15 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
   render();
 })();
 
+/* Delivery is charged by both pickers, so the rates live in one place:
+   free to 15km, then R8/km to 30km, then R12/km beyond. One way, by road,
+   from Mall@55, Centurion. Change it here and both pages follow. */
+function cbDeliveryFee(km){
+  if(km <= 15) return 0;
+  if(km <= 30) return (km - 15) * 8;
+  return (15 * 8) + (km - 30) * 12;
+}
+
 /* ---- experiences picker: same mechanics as the party one ---- */
 (function(){
   /* R250 off two pieces, then R150 more for each one after that. These are
@@ -3290,6 +3312,29 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
   var mail    = document.getElementById('expMail');
   var form      = document.getElementById('xForm');
   var pickedEl  = document.getElementById('xPicked');
+  var subSel    = document.getElementById('xsuburb');
+  var otherWrap = document.getElementById('xOtherWrap');
+  var otherIn   = document.getElementById('xsuburbOther');
+  var subFee    = document.getElementById('xSubFee');
+  var dRow      = document.getElementById('xsumDeliv');
+  var dLbl      = document.getElementById('xsumDelivLabel');
+  var dAmt      = document.getElementById('xsumDelivAmt');
+
+  /* The suburb list is cloned from the party form rather than written out
+     twice. One list, one set of distances - add a suburb there and it shows
+     up here too. */
+  var srcSel = document.getElementById('qsuburb');
+  if(subSel && srcSel) subSel.innerHTML = srcSel.innerHTML;
+
+  function chosenSuburb(){
+    if(!subSel || !subSel.value) return null;
+    if(subSel.value === 'other') return { other:true };
+    var opt = subSel.options[subSel.selectedIndex];
+    var km  = opt && opt.getAttribute('data-km');
+    if(km === null || km === undefined) return null;
+    km = Number(km);
+    return { name: subSel.value, km: km, fee: cbDeliveryFee(km) };
+  }
 
   /* thousands take a space, South African style, never a comma */
   function rand(n){ return 'R' + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' '); }
@@ -3317,12 +3362,37 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
       discAmt.textContent = '\u2212' + rand(off);
     }
 
+    /* delivery, from the suburb chosen in the form below */
+    var where = chosenSuburb();
+    var carriage = 0;
+    if(dRow){
+      if(!where || chosen.length === 0){
+        dRow.hidden = true;
+        if(subFee) subFee.hidden = true;
+      } else if(where.other){
+        dRow.hidden = false;
+        dLbl.textContent = 'Delivery fee';
+        dAmt.textContent = 'On quote';
+        if(subFee){ subFee.hidden = false; subFee.textContent = 'We will work out the travel and confirm it before you pay.'; }
+      } else {
+        carriage = where.fee;
+        dRow.hidden = false;
+        dLbl.textContent = 'Delivery fee \u00b7 ' + where.km + 'km';
+        dAmt.textContent = carriage === 0 ? 'Free' : rand(carriage);
+        if(subFee){
+          subFee.hidden = false;
+          subFee.textContent = where.km + 'km from us \u2014 ' +
+            (carriage === 0 ? 'delivery is free' : 'delivery ' + rand(carriage));
+        }
+      }
+    }
+
     if(!chosen.length){
       total.textContent = '\u2014';
       note.textContent = 'Choose at least one to see your price.';
       btn.setAttribute('aria-disabled','true');
     } else {
-      total.textContent = rand(list - off);
+      total.textContent = rand(list - off + carriage);
       note.textContent = off
         ? 'You saved ' + rand(off) + '. Delivery is free for the first 15km.'
         : 'Delivery is free for the first 15km. Add a second piece and R250 comes off.';
@@ -3365,6 +3435,13 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
     tent.addEventListener('change', function(){ if(tent.checked) basket.checked = false; });
   }
   opts.forEach(function(o){ o.addEventListener('change', update); });
+  if(subSel){
+    subSel.addEventListener('change', function(){
+      if(otherWrap) otherWrap.hidden = subSel.value !== 'other';
+      update();
+    });
+  }
+  if(otherIn) otherIn.addEventListener('input', update);
   update();
 
   /* ---- the enquiry itself -----------------------------------------------
@@ -3399,14 +3476,15 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
       if(honey && honey.value) return;           /* a bot filled the hidden field */
       if(errEl) errEl.hidden = true;
 
-      var name = v('xname'), phone = v('xphone'), date = v('xdate'), where = v('xwhere');
+      var name = v('xname'), phone = v('xphone'), date = v('xdate');
+      var where = subSel ? (subSel.value === 'other' ? v('xsuburbOther') : subSel.value) : '';
 
       /* the form is novalidate, so say plainly what is still missing */
       var need = [];
       if(!name)  need.push('your name');
       if(!phone) need.push('a WhatsApp number');
       if(!date)  need.push('the date');
-      if(!where) need.push('the suburb or venue');
+      if(!where) need.push('your suburb');
       if(need.length){
         showErr('We still need ' + (need.length > 1
           ? need.slice(0,-1).join(', ') + ' and ' + need[need.length-1]
@@ -3422,7 +3500,8 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
         'Name': name,
         'WhatsApp': phone,
         'Date': pretty || date,
-        'Where': where,
+        'Suburb': where,
+        'Delivery': dAmt && !dRow.hidden ? dAmt.textContent : 'not calculated',
         'Occasion': sel('xoccasion') || 'not answered',
         'Interested in': form.dataset.sel || 'nothing ticked',
         'Notes': v('xnote') || '-',
@@ -3451,7 +3530,7 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
       .catch(function(){
         var lines = ['Hi CaRe Bounce, I would like to enquire about an occasion.', '',
           'Name: ' + name, 'WhatsApp: ' + phone, 'Date: ' + (pretty || date),
-          'Where: ' + where];
+          'Suburb: ' + where];
         var oc = sel('xoccasion'); if(oc) lines.push('Occasion: ' + oc);
         if(form.dataset.sel) lines.push('Interested in: ' + form.dataset.sel);
         var nt = v('xnote'); if(nt) lines.push('', nt);
@@ -3500,12 +3579,7 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
   /* thousands take a space, South African style, never a comma */
   function rand(n){ return 'R' + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' '); }
 
-  /* Free to 15km, then R8/km to 30km, then R12/km beyond. One way, from Mall@55. */
-  function deliveryFee(km){
-    if(km <= 15) return 0;
-    if(km <= 30) return (km - 15) * 8;
-    return (15 * 8) + (km - 30) * 12;
-  }
+  var deliveryFee = cbDeliveryFee;   /* the shared rates, defined once above */
 
   function chosenSuburb(){
     if(!subSel || !subSel.value) return null;
