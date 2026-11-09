@@ -1121,50 +1121,69 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
       <div class="fields">
         <div class="field"><label for="qname">Your name</label><input id="qname" name="name" type="text" autocomplete="name" required></div>
         <div class="field"><label for="qphone">WhatsApp number</label><input id="qphone" name="phone" type="tel" autocomplete="tel" placeholder="082 000 0000" required></div>
+        <div class="field"><label for="qemail">Email</label><input id="qemail" name="email" type="email" autocomplete="email" placeholder="you@example.com" required><span style="font-size:13.5px;color:var(--muted)">This is where your quote and invoice go.</span></div>
         <div class="field"><label for="qdate">Party date</label><input id="qdate" name="date" type="date" class="dateint" required></div>
         <div class="field"><label for="qsuburb">Suburb</label>
           <select id="qsuburb" name="suburb" required>
             <option value="" selected>Choose your suburb&hellip;</option>
-            <optgroup label="Sandton">
-              <option data-km="38">Sandton Central</option><option data-km="37">Sandown</option><option data-km="36">Morningside</option>
-              <option data-km="37">Benmore Gardens</option><option data-km="39">Atholl</option><option data-km="40">Hyde Park</option>
-              <option data-km="42">Illovo</option><option data-km="43">Melrose</option><option data-km="38">Wierda Valley</option>
+            <optgroup label="Centurion">
+              <option data-km="2">Hennopspark</option><option data-km="3">Bronberrick</option><option data-km="3">Centurion Central</option>
+              <option data-km="3">Die Hoewes</option><option data-km="4">Clubview</option><option data-km="4">Eldoraigne</option>
+              <option data-km="4">Lyttelton Manor</option><option data-km="4">Zwartkop</option><option data-km="5">Doringkloof</option>
+              <option data-km="5">Highveld</option><option data-km="5">Lyttelton</option><option data-km="6">Centurion Golf Estate</option>
+              <option data-km="6">Midstream Estate</option><option data-km="6">Southdowns</option><option data-km="6">Wierda Glen</option>
+              <option data-km="6">Wierdapark</option><option data-km="7">Irene</option><option data-km="7">Raslouw</option>
+              <option data-km="8">Cornwall Hill</option><option data-km="8">Rooihuiskraal</option><option data-km="8">The Reeds</option>
+              <option data-km="9">Celtisdal</option><option data-km="9">Pierre van Ryneveld</option><option data-km="10">Eldoglen</option>
+              <option data-km="10">Heuweloord</option><option data-km="10">Louwlardia</option><option data-km="10">Midstream Hill</option>
+              <option data-km="10">Valhalla</option><option data-km="12">Amberfield</option><option data-km="13">Blue Valley Golf Estate</option>
+              <option data-km="13">Midstream Ridge</option><option data-km="14">Midstream Meadows</option><option data-km="14">Thatchfield</option>
+              <option data-km="18">Copperleaf</option>
             </optgroup>
-            <optgroup label="Bryanston &amp; Rivonia">
-              <option data-km="36">Bryanston</option><option data-km="35">Bryanston East</option><option data-km="38">Bryanston West</option>
-              <option data-km="34">Rivonia</option><option data-km="34">Edenburg</option><option data-km="35">River Club</option>
-              <option data-km="33">Wendywood</option><option data-km="32">Gallo Manor</option><option data-km="33">Kelvin</option>
+            <optgroup label="Midrand">
+              <option data-km="15">Glen Austin</option><option data-km="16">Carlswald</option><option data-km="16">Clayville</option>
+              <option data-km="17">Noordwyk</option><option data-km="17">Olifantsfontein</option><option data-km="17">Sagewood</option>
+              <option data-km="18">Erand Gardens</option><option data-km="18">Grand Central</option><option data-km="18">Halfway House</option>
+              <option data-km="18">President Park</option><option data-km="18">Randjespark</option><option data-km="18">Summerset</option>
+              <option data-km="19">Halfway Gardens</option><option data-km="20">Blue Hills</option><option data-km="20">Vorna Valley</option>
+              <option data-km="22">Beaulieu</option><option data-km="22">Crowthorne</option><option data-km="22">Waterfall City</option>
+              <option data-km="24">Kyalami</option><option data-km="25">Country View</option><option data-km="27">Barbeque Downs</option>
+            </optgroup>
+            <optgroup label="Pretoria East">
+              <option data-km="12">Erasmusrand</option><option data-km="13">Monument Park</option><option data-km="14">Erasmuskloof</option>
+              <option data-km="14">Rietvalleirand</option><option data-km="14">Wingate Park</option><option data-km="15">Elarduspark</option>
+              <option data-km="17">Waterkloof Glen</option><option data-km="18">Lynnwood Glen</option><option data-km="18">Lynnwood Manor</option>
+              <option data-km="19">Lynnwood Ridge</option><option data-km="20">Woodhill</option><option data-km="21">Boardwalk</option>
+              <option data-km="21">Die Wilgers</option><option data-km="21">Olympus</option><option data-km="21">Val de Grace</option>
+              <option data-km="22">Constantia Park</option><option data-km="22">Menlo Park</option><option data-km="22">Menlyn</option>
+              <option data-km="22">The Wilds</option><option data-km="24">Mooikloof</option><option data-km="24">Moreleta Park</option>
+              <option data-km="24">Wapadrand</option><option data-km="25">Garsfontein</option><option data-km="25">Lynnwood</option>
+              <option data-km="28">Faerie Glen</option><option data-km="30">Equestria</option><option data-km="32">Silver Lakes</option>
+            </optgroup>
+            <optgroup label="Pretoria">
+              <option data-km="17">Waterkloof Ridge</option><option data-km="18">Groenkloof</option><option data-km="18">Waterkloof</option>
+              <option data-km="20">Brooklyn</option><option data-km="22">Hatfield</option><option data-km="22">Pretoria Central</option>
+              <option data-km="30">Annlin</option><option data-km="30">Sinoville</option><option data-km="32">Montana</option>
             </optgroup>
             <optgroup label="Sunninghill &amp; Woodmead">
               <option data-km="30">Sunninghill</option><option data-km="30">Sunninghill Gardens</option><option data-km="32">Paulshof</option>
               <option data-km="33">Woodmead</option><option data-km="36">Maroeladal</option>
             </optgroup>
+            <optgroup label="Bryanston &amp; Rivonia">
+              <option data-km="32">Gallo Manor</option><option data-km="33">Kelvin</option><option data-km="33">Wendywood</option>
+              <option data-km="34">Edenburg</option><option data-km="34">Rivonia</option><option data-km="35">Bryanston East</option>
+              <option data-km="35">River Club</option><option data-km="36">Bryanston</option><option data-km="38">Bryanston West</option>
+            </optgroup>
+            <optgroup label="Sandton">
+              <option data-km="36">Morningside</option><option data-km="37">Benmore Gardens</option><option data-km="37">Sandown</option>
+              <option data-km="38">Sandton Central</option><option data-km="38">Wierda Valley</option><option data-km="39">Atholl</option>
+              <option data-km="40">Hyde Park</option><option data-km="42">Illovo</option><option data-km="43">Melrose</option>
+            </optgroup>
             <optgroup label="Fourways">
-              <option data-km="38">Fourways</option><option data-km="38">Fourways Gardens</option><option data-km="36">Craigavon</option>
+              <option data-km="36">Craigavon</option><option data-km="37">Lonehill</option><option data-km="38">Fourways</option>
+              <option data-km="38">Fourways Gardens</option><option data-km="38">Magaliessig</option><option data-km="38">Witkoppen</option>
               <option data-km="40">Broadacres</option><option data-km="40">Dainfern</option><option data-km="40">Douglasdale</option>
-              <option data-km="37">Lonehill</option><option data-km="38">Magaliessig</option><option data-km="38">Witkoppen</option>
-              <option data-km="42">Jukskei Park</option><option data-km="41">Cedar Lakes</option>
-            </optgroup>
-            <optgroup label="Midrand">
-              <option data-km="18">Halfway House</option><option data-km="19">Halfway Gardens</option><option data-km="16">Carlswald</option>
-              <option data-km="17">Noordwyk</option><option data-km="20">Vorna Valley</option><option data-km="24">Kyalami</option>
-              <option data-km="20">Blue Hills</option><option data-km="22">Waterfall City</option><option data-km="17">Sagewood</option>
-              <option data-km="15">Glen Austin</option><option data-km="18">President Park</option><option data-km="18">Erand Gardens</option>
-            </optgroup>
-            <optgroup label="Centurion">
-              <option data-km="3">Centurion Central</option><option data-km="5">Lyttelton</option><option data-km="4">Eldoraigne</option>
-              <option data-km="6">Wierdapark</option><option data-km="8">Rooihuiskraal</option><option data-km="5">Highveld</option>
-              <option data-km="3">Die Hoewes</option><option data-km="4">Zwartkop</option><option data-km="7">Irene</option>
-              <option data-km="5">Doringkloof</option><option data-km="4">Clubview</option><option data-km="9">Celtisdal</option>
-              <option data-km="12">Amberfield</option><option data-km="6">Southdowns</option>
-            </optgroup>
-            <optgroup label="Pretoria">
-              <option data-km="22">Hatfield</option><option data-km="20">Brooklyn</option><option data-km="18">Waterkloof</option>
-              <option data-km="17">Waterkloof Ridge</option><option data-km="18">Groenkloof</option><option data-km="25">Lynnwood</option>
-              <option data-km="22">Menlo Park</option><option data-km="22">Menlyn</option><option data-km="25">Garsfontein</option>
-              <option data-km="28">Faerie Glen</option><option data-km="24">Moreleta Park</option><option data-km="22">Constantia Park</option>
-              <option data-km="32">Silver Lakes</option><option data-km="30">Equestria</option><option data-km="32">Montana</option>
-              <option data-km="30">Sinoville</option><option data-km="30">Annlin</option><option data-km="22">Pretoria Central</option>
+              <option data-km="41">Cedar Lakes</option><option data-km="42">Jukskei Park</option>
             </optgroup>
             <option value="other">Somewhere else &mdash; let me type it</option>
           </select>
@@ -1558,6 +1577,9 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
             <input id="xname" name="name" type="text" autocomplete="name" required></div>
           <div class="field"><label for="xphone">WhatsApp number</label>
             <input id="xphone" name="phone" type="tel" autocomplete="tel" placeholder="082 000 0000" required></div>
+          <div class="field"><label for="xemail">Email</label>
+            <input id="xemail" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+            <span style="font-size:13.5px;color:var(--muted)">This is where your quote and invoice go.</span></div>
           <div class="field"><label for="xdate">The date</label>
             <input id="xdate" name="date" type="date" class="dateint" required></div>
           <div class="field"><label for="xsuburb">Suburb</label>
@@ -2706,7 +2728,7 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
         <h3>Email &mdash; where the real money is</h3>
         <p>The domain is R100 a year. The mailbox is what actually costs, and the gap between the cheapest and
         the obvious choice is about R10 000 a year for a small team. For <b>one or two mailboxes on one domain</b>,
-        which is what Uptime Systems needs:</p>
+        which is what Automation247 needs:</p>
         <table class="rs-mini">
           <thead><tr><th>Option</th><th>Cost</th><th>The catch</th></tr></thead>
           <tbody>
@@ -3118,7 +3140,7 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
     <div class="ftr-btm">
       <span>CaRe Bounce is a trading name of <b>CaRe Bounce Hire (Pty) Ltd</b> &middot;
         Reg. 2026/855134/07 &middot; Gauteng</span>
-      <span>Enquiries go to info@carebounce.co.za &middot; <b>build 141</b></span>
+      <span>Enquiries go to info@carebounce.co.za &middot; <b>build 144</b></span>
     </div>
   </div>
 </footer>
@@ -3486,15 +3508,22 @@ function cbDeliveryFee(km){
       if(honey && honey.value) return;           /* a bot filled the hidden field */
       if(errEl) errEl.hidden = true;
 
-      var name = v('xname'), phone = v('xphone'), date = v('xdate');
+      var name = v('xname'), phone = v('xphone'), date = v('xdate'),
+          email = v('xemail');
       var where = subSel ? (subSel.value === 'other' ? v('xsuburbOther') : subSel.value) : '';
 
+      function looksLikeEmail(s){ return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(s); }
       /* the form is novalidate, so say plainly what is still missing */
       var need = [];
       if(!name)  need.push('your name');
       if(!phone) need.push('a WhatsApp number');
+      if(!email) need.push('your email address');
       if(!date)  need.push('the date');
       if(!where) need.push('your suburb');
+      if(email && !looksLikeEmail(email)){
+        showErr('That email address does not look right &mdash; your quote and invoice go there, so it is worth a second look.');
+        return;
+      }
       if(need.length){
         showErr('We still need ' + (need.length > 1
           ? need.slice(0,-1).join(', ') + ' and ' + need[need.length-1]
@@ -3509,6 +3538,7 @@ function cbDeliveryFee(km){
       var payload = {
         'Name': name,
         'WhatsApp': phone,
+        'Email': email,
         'Date': pretty || date,
         'Suburb': where,
         'Delivery': dAmt && !dRow.hidden ? dAmt.textContent : 'not calculated',
@@ -3517,6 +3547,7 @@ function cbDeliveryFee(km){
         'Total quoted': form.dataset.total || 'not calculated',
         'Notes': v('xnote') || '-',
         '_subject': 'TEST (staging) - Experience enquiry - ' + name + ', ' + (pretty || date) + ', ' + where,
+        '_replyto': email,
         '_template': 'table',
         '_captcha': 'false'
       };
@@ -3792,15 +3823,22 @@ function cbDeliveryFee(km){
     if(honey && honey.value) return;              /* a bot filled the hidden field */
     if(errEl) errEl.hidden = true;
 
-    var name = val('qname'), phone = val('qphone'), date = val('qdate');
+    var name = val('qname'), phone = val('qphone'), date = val('qdate'),
+        email = val('qemail');
     var where = sub ? (sub.value === 'other' ? val('qsuburbOther') : sub.value) : '';
 
+    function looksLikeEmail(s){ return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(s); }
     /* the form is novalidate, so check it ourselves and say what is missing */
     var need = [];
     if(!name)  need.push('your name');
     if(!phone) need.push('a WhatsApp number');
+    if(!email) need.push('your email address');
     if(!date)  need.push('the party date');
     if(!where) need.push('your suburb');
+    if(email && !looksLikeEmail(email)){
+      showErr('That email address does not look right &mdash; your quote and invoice go there, so it is worth a second look.');
+      return;
+    }
     if(need.length){
       showErr('We still need ' + (need.length > 1
         ? need.slice(0,-1).join(', ') + ' and ' + need[need.length-1]
@@ -3815,6 +3853,7 @@ function cbDeliveryFee(km){
     var payload = {
       'Name': name,
       'WhatsApp': phone,
+      'Email': email,
       'Party date': pretty || date,
       'Suburb': where,
       'Package': picked(),
@@ -3822,6 +3861,7 @@ function cbDeliveryFee(km){
       'Total quoted': text('sumTotal') || 'not calculated',
       'Heard about us': label('qheard') || 'not answered',
       '_subject': 'TEST (staging) - Quote request - ' + name + ', ' + (pretty || date) + ', ' + where,
+      '_replyto': email,
       '_template': 'table',
       '_captcha': 'false'
     };
