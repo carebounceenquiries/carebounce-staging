@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Jumping castle, soft play and bubble house hire across Centurion, Midrand, Pretoria, Sandton, Fourways and Bryanston. Live pricing, delivery worked out from your suburb, fully insured for public liability. Set up in the morning, collected the same day.">
 <meta name="theme-color" content="#FFF8EE">
+<link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png">
 <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
@@ -455,6 +456,19 @@ input:focus,select:focus{border-color:var(--sky);outline:none}
 .frame span{font-weight:800;font-size:11.5px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
 .shot figcaption{font-size:14.8px;color:var(--muted);line-height:1.5}
 .shot figcaption strong{display:block;color:var(--ink);font-size:16px;font-family:'Fredoka',sans-serif;font-weight:600;margin-bottom:3px}
+
+/* ---------- gallery slideshows ---------- */
+.gshow{position:relative;aspect-ratio:4/3;max-width:100%;border-radius:var(--r-md);
+  overflow:hidden;background:var(--sunk);border:1px solid var(--line)}
+.gshow img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transition:opacity .7s ease}
+.gshow img.on{opacity:1}
+.gdots{position:absolute;left:0;right:0;bottom:10px;z-index:2;
+  display:flex;justify-content:center;gap:6px;pointer-events:none}
+.gdots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.45);
+  box-shadow:0 1px 3px rgba(0,0,0,.45);transition:background .3s}
+.gdots i.on{background:#fff}
+@media (prefers-reduced-motion:reduce){.gshow img{transition:none}}
 
 /* ---------- terms ---------- */
 .doc{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);
@@ -1052,7 +1066,7 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
             <span class="opt-check" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#1B2A4A" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
             <span class="opt-body">
               <span class="opt-name">Jumping castle with a slide &mdash; with a roof</span>
-              <span class="opt-note">A slide down one side. The older ones stay on it far longer.</span>
+              <span class="opt-note">A slide down one side into a splash pool at the bottom. The older ones stay on it far longer.</span>
             </span>
             <span class="opt-cost">R750</span>
           </span>
@@ -1225,6 +1239,8 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
             <option value="facebook">Facebook</option>
             <option value="instagram">Instagram</option>
             <option value="tiktok">TikTok</option>
+            <option value="google">Google search or maps</option>
+            <option value="shirt">Saw your shirt or trailer</option>
             <option value="friend">Friend or family</option>
             <option value="other">Other</option>
           </select>
@@ -1280,56 +1296,44 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
   <div class="head">
     <span class="eyebrow">Gallery</span>
     <h2>The actual castle, in an actual garden</h2>
-    <p>Photographs go in here the week the fleet arrives. Below is the shot list &mdash; take these six on a real job in good morning light and this section is finished.</p>
+    <p>Our own three units, photographed the day they arrived. Every picture here is a castle we own and deliver ourselves &mdash; not a stock photograph, not a supplier&rsquo;s image.</p>
   </div>
   <div class="shots">
 
     <figure class="shot">
-      <div class="frame" aria-hidden="true">
-        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#5C6B85" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-        <span>Photo 1</span>
+      <div class="gshow" data-ms="2500">
+        <img src="photos/castle-roof-1.jpg" width="1000" height="750" alt="CaRe Bounce jumping castle with a roof, inflated and set up" class="on">
+        <img src="photos/castle-roof-2.jpg" width="1000" height="750" alt="" loading="lazy">
+        <img src="photos/castle-roof-3.jpg" width="1000" height="750" alt="" loading="lazy">
+        <img src="photos/castle-roof-4.jpg" width="1000" height="750" alt="" loading="lazy">
+        <img src="photos/castle-roof-5.jpg" width="1000" height="750" alt="" loading="lazy">
+        <span class="gdots" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i></span>
       </div>
-      <figcaption><strong>Castle, wide</strong>The whole unit on grass, set up and inflated, nothing cropped off. This is your hero image, so shoot it last when the garden looks its best.</figcaption>
+      <figcaption><strong>Jumping castle &mdash; with a roof &middot; R650</strong>4&times;4 m, for ages four and up. The one every party needs.</figcaption>
     </figure>
 
     <figure class="shot">
-      <div class="frame" aria-hidden="true">
-        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#5C6B85" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-        <span>Photo 2</span>
+      <div class="gshow" data-ms="2500">
+        <img src="photos/castle-slide-1.jpg" width="1000" height="750" alt="CaRe Bounce jumping castle with a slide and splash pool, inflated and set up" class="on">
+        <img src="photos/castle-slide-2.jpg" width="1000" height="750" alt="" loading="lazy">
+        <img src="photos/castle-slide-3.jpg" width="1000" height="750" alt="" loading="lazy">
+        <img src="photos/castle-slide-4.jpg" width="1000" height="750" alt="" loading="lazy">
+        <img src="photos/castle-slide-5.jpg" width="1000" height="750" alt="" loading="lazy">
+        <span class="gdots" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i></span>
       </div>
-      <figcaption><strong>The entrance, close</strong>The arch with the safety mat down and a peg visible in frame. This is the picture that proves you set up properly.</figcaption>
+      <figcaption><strong>Jumping castle with a slide &middot; R750</strong>A slide down one side into a splash pool at the bottom. The older ones stay on it far longer.</figcaption>
     </figure>
 
     <figure class="shot">
-      <div class="frame" aria-hidden="true">
-        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#5C6B85" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-        <span>Photo 3</span>
+      <div class="gshow" data-ms="2500">
+        <img src="photos/castle-white-1.jpg" width="1000" height="750" alt="CaRe Bounce white jumping castle, inflated and set up" class="on">
+        <img src="photos/castle-white-2.jpg" width="1000" height="750" alt="" loading="lazy">
+        <img src="photos/castle-white-3.jpg" width="1000" height="750" alt="" loading="lazy">
+        <img src="photos/castle-white-4.jpg" width="1000" height="750" alt="" loading="lazy">
+        <img src="photos/castle-white-5.jpg" width="1000" height="750" alt="" loading="lazy">
+        <span class="gdots" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i></span>
       </div>
-      <figcaption><strong>Soft play, laid out</strong>Ball pit, foam shapes and mats arranged the way you actually set them. Shoot from standing height, looking down.</figcaption>
-    </figure>
-
-    <figure class="shot">
-      <div class="frame" aria-hidden="true">
-        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#5C6B85" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-        <span>Photo 4</span>
-      </div>
-      <figcaption><strong>A bundle, together</strong>Castle beside the soft play, or beside the bubble house, in one frame. This sells the paired booking better than any sentence on this page.</figcaption>
-    </figure>
-
-    <figure class="shot">
-      <div class="frame" aria-hidden="true">
-        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#5C6B85" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-        <span>Photo 5</span>
-      </div>
-      <figcaption><strong>The two of you setting up</strong>In branded shirts, mid-job. Parents book people, not equipment, and this is the only photo that shows who turns up.</figcaption>
-    </figure>
-
-    <figure class="shot">
-      <div class="frame" aria-hidden="true">
-        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#5C6B85" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-        <span>Photo 6</span>
-      </div>
-      <figcaption><strong>The trailer, branded</strong>Parked in a driveway with the decals showing. Doubles as your Facebook cover and reassures people something real is arriving.</figcaption>
+      <figcaption><strong>White jumping castle &middot; R850</strong>Plain white, no cartoon print. The one for photographs and parties with a colour scheme of their own.</figcaption>
     </figure>
 
   </div>
@@ -3151,7 +3155,7 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
         Reg. 2026/855134/07 &middot; Gauteng &middot;
         Website built by <a href="https://automation247.co.za" target="_blank" rel="noopener"
           style="color:inherit;text-decoration:underline;text-underline-offset:2px">automation247.co.za</a></span>
-      <span>Enquiries go to info@carebounce.co.za &middot; <b>build 147</b></span>
+      <span>Enquiries go to info@carebounce.co.za &middot; <b>build 149</b></span>
     </div>
   </div>
 </footer>
@@ -3778,6 +3782,23 @@ function cbDeliveryFee(km){
   }
   if(sub) sub.addEventListener('change', function(){ toggleOther(true); });
   toggleOther(false);
+
+  /* The QR on the shirt points at /?src=shirt. Preselecting the source here
+     means the enquiry email tells us the lead came off the shirt - the same
+     attribution a tracking script would give, without one, and it fills in
+     one row of the "where did you hear about us" column by itself. */
+  try{
+    var src = new URLSearchParams(location.search).get('src');
+    var heard = document.getElementById('qheard');
+    if(src && heard){
+      var known = { shirt:'shirt', trailer:'shirt', fb:'facebook', ig:'instagram',
+                    ads:'google', google:'google', gbp:'google', g:'google' };
+      var pick = known[src.toLowerCase()];
+      if(pick && [].some.call(heard.options, function(o){ return o.value === pick; })){
+        heard.value = pick;
+      }
+    }
+  }catch(e){}
 
   /* no point offering yesterday */
   var d = document.getElementById('qdate');
@@ -5500,6 +5521,71 @@ function cbDeliveryFee(km){
   })();
 
   render();
+})();
+</script>
+
+<script>
+/* Gallery slideshows. Each .gshow crossfades its images on a timer.
+
+   Two things here are deliberate and both were bugs first:
+
+   1. The timer starts by default and IntersectionObserver is used only to
+      PAUSE an off-screen block. Driven the other way round, any browser or
+      embedding that does not deliver the callback leaves every slideshow
+      frozen on its first frame.
+
+   2. Each block's beat is anchored to the absolute clock with its own offset,
+      not to the moment it started. All three blocks sit below the fold, so
+      they are revealed by the same scroll event and would otherwise start on
+      the same tick and flip in unison, which reads as a glitch. The offset is
+      a third of the cycle, so changing data-ms keeps them evenly spread. */
+(function(){
+  var boxes = document.querySelectorAll('.gshow');
+  if(!boxes.length) return;
+  var reduce = window.matchMedia
+            && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  [].forEach.call(boxes, function(box, bi){
+    var imgs = box.querySelectorAll('img'),
+        dots = box.querySelectorAll('.gdots i'),
+        ms   = parseInt(box.getAttribute('data-ms'), 10) || 2000,
+        off  = bi * (ms / 3),
+        i    = 0, timer = null, visible = true;
+    if(imgs.length < 2) return;
+
+    function show(n){
+      imgs[i].classList.remove('on'); if(dots[i]) dots[i].classList.remove('on');
+      i = n;
+      imgs[i].classList.add('on');    if(dots[i]) dots[i].classList.add('on');
+    }
+    function step(){ show((i + 1) % imgs.length); }
+
+    function start(){
+      if(timer || reduce || !visible) return;
+      var due = ms - (((new Date()).getTime() - off) % ms);
+      timer = setTimeout(function(){
+        step();
+        timer = setInterval(step, ms);
+      }, due);
+    }
+    function stop(){
+      if(!timer) return;
+      clearTimeout(timer); clearInterval(timer); timer = null;
+    }
+
+    box.addEventListener('mouseenter', stop);
+    box.addEventListener('mouseleave', start);
+
+    start();
+    if('IntersectionObserver' in window){
+      new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          visible = e.isIntersecting;
+          visible ? start() : stop();
+        });
+      }, { threshold: 0 }).observe(box);
+    }
+  });
 })();
 </script>
 </body>
