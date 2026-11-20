@@ -682,23 +682,26 @@ table.rs.is-marking tbody td:hover{outline:2px dashed var(--sky);outline-offset:
 .section.has-vid .shot-note{color:#CBD7EA}
 .section.has-vid .frame svg{stroke:#C7D4E8}
 @media (max-width:620px){ .section.has-vid{padding-block:44px 52px;margin-block:26px 32px} }
-/* A short banner band rather than a tall scrolling section. The default
-   treatment pins the clip to the viewport, which in a 300px band would show
-   only its top strip - sky, and none of the people. Here it fills the band. */
-/* The clip is 1.4:1 and this band is far wider than it is tall, so `cover`
-   only ever shows a horizontal slice of it. The band therefore needs real
-   height, or the jumping is cropped away and only torsos survive. */
-/* min-height on .vid-bg does nothing to the band: it is absolutely
-   positioned, so it stretches to the parent and cannot push it. The height
-   has to live on the section. */
-.vid-hero{min-height:560px;display:flex;flex-direction:column;justify-content:center}
-@media (max-width:620px){ .vid-hero{min-height:430px} }
-.vid-bg.vid-band video{position:absolute;inset:0;height:100%;object-position:center 48%}
-.vid-bg.vid-band .vid-veil{background:linear-gradient(180deg,rgba(12,20,36,.58) 0%,
-  rgba(12,20,36,.30) 45%,rgba(12,20,36,.34) 65%,rgba(12,20,36,.60) 100%)}
-/* the experiences view sets its eyebrow to muted grey, which disappears on
-   the veil; its #id beats the .section.has-vid rule, so restate it */
-#experiences .has-vid .eyebrow{color:#FFC531}
+/* ---------- the experiences scene: a drawing that previews itself ----------
+   The illustration is the resting state. Every few seconds it crossfades to a
+   clip of the real thing, then comes back. Further pieces drop in here as
+   extra frames rather than as whole new sections.
+
+   It is also where the clip finally looks sharp. The card is a few hundred
+   pixels wide and the file is 1392 across, so this is a DOWNSCALE. Stretched
+   across a full-width band it was being blown up about four times, which is
+   what made it look so poor. */
+/* The crossfade is driven from JavaScript as an inline opacity, not by
+   toggling a class. An inline style outranks any rule in the sheet, so there
+   is nothing left to arbitrate - and the cycle's own timer was racing the
+   class anyway. CSS here only declares the transition. */
+.scene-clip{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transition:opacity .85s ease;border-radius:inherit;z-index:1}
+.scene svg{transition:opacity .85s ease}
+@media (prefers-reduced-motion:reduce){
+  .scene-clip{display:none}
+  .scene svg{opacity:1 !important}
+}
 
 /* nobody who has asked for less motion gets a looping video */
 @media (prefers-reduced-motion:reduce){ .vid-bg video{display:none} }
@@ -1473,6 +1476,9 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
           <circle cx="226" cy="224" r="10" fill="#FFF8EE" opacity=".65"/>
           <path d="M0 262 h400 v38 H0 Z" fill="#FFF8EE" opacity=".08"/>
         </svg>
+        <video class="scene-clip" id="sceneClip" muted loop playsinline preload="none"
+               poster="video/castle-poster.jpg" disablepictureinpicture tabindex="-1"
+               aria-hidden="true"></video>
       </div>
     </div>
   </section>
@@ -1482,20 +1488,13 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
   </svg>
 
   <section class="band" id="exp-hire">
-    <div class="wrap section has-vid vid-hero" style="padding-block:68px;margin-block:0">
-      <div class="vid-bg vid-band" aria-hidden="true">
-        <video id="expVid" muted autoplay loop playsinline preload="metadata"
-               disablepictureinpicture tabindex="-1"></video>
-        <div class="vid-veil"></div>
-      </div>
+    <div class="wrap section" style="padding-block:44px 70px">
       <div class="head">
         <span class="eyebrow">What we bring</span>
         <h2>Three pieces, and none of them is red</h2>
         <p>They come from the same fleet we hire to families, kept and cleaned to the same standard. What changes is how they look and how they are set. Take two or more and <strong>10%</strong> comes off the whole lot &mdash; it all travels on one delivery.</p>
       </div>
-    </div>
 
-    <div class="wrap section" style="padding-block:40px 70px">
       <div class="picker">
         <div class="opts">
 
@@ -5618,6 +5617,86 @@ function wireBgVideo(v){
   try{
     [].forEach.call(document.querySelectorAll('.vid-bg video'), wireBgVideo);
   }catch(e){}
+})();
+</script>
+<script>
+/* The experiences scene previews itself: the drawing rests, then crossfades
+   to a clip of the real thing, then returns. Adding another piece later means
+   adding another frame to FRAMES, not another section.
+
+   Three deliberate things:
+   - Nothing is fetched until the scene is actually on screen. The experiences
+     view is hidden until the visitor switches to it, and a hidden element has
+     no box, so this waits rather than spending a visitor's data on a clip they
+     may never reach.
+   - It lives in its own <script> block. On 20 November a throw elsewhere in
+     the long shared block silently killed the background video, because the
+     call sat in that same block. Not again.
+   - Reduced motion leaves the drawing alone and never loads the clip. */
+(function(){
+  var scene = document.querySelector('#experiences .scene');
+  if(!scene) return;
+  var clip = scene.querySelector('.scene-clip');
+  if(!clip) return;
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var ART_MS  = 5200;        /* how long the drawing holds */
+  var CLIP_MS = 9000;        /* about two passes at half speed */
+  var SPEED   = 0.5;
+  var SRC     = 'video/castle-loop.mp4';
+  var art = scene.querySelector('svg');
+  var fetched = false, timer = null;
+
+  function load(){
+    if(fetched) return Promise.resolve();
+    fetched = true;
+    /* buffered whole rather than streamed: the clip is small, and a fully
+       buffered object URL sidesteps Range negotiation, which is what used to
+       leave iOS showing a single frame */
+    return fetch(SRC, { credentials: 'same-origin' })
+      .then(function(r){ return r.ok ? r.blob() : null; })
+      .then(function(b){ if(b && b.size) clip.src = URL.createObjectURL(b); })
+      .catch(function(){ if(!clip.src) clip.src = SRC; });
+  }
+
+  function showClip(){
+    /* offsetParent is null while any ancestor is display:none, which is
+       exactly the state the experiences view sits in until it is chosen */
+    if(scene.offsetParent === null || document.hidden){
+      timer = setTimeout(showClip, 1500);
+      return;
+    }
+    load().then(function(){
+      clip.muted = true;
+      clip.playbackRate = SPEED;
+      var p = clip.play();
+      if(p && p.catch) p.catch(function(){});
+      clip.style.opacity = '1';
+      if(art) art.style.opacity = '0';
+      timer = setTimeout(showArt, CLIP_MS);
+    });
+  }
+
+  function showArt(){
+    clip.style.opacity = '0';
+    if(art) art.style.opacity = '1';
+    setTimeout(function(){ try{ clip.pause(); }catch(e){} }, 900);  /* after the fade */
+    timer = setTimeout(showClip, ART_MS);
+  }
+
+  clip.addEventListener('loadedmetadata', function(){ clip.playbackRate = SPEED; });
+  clip.addEventListener('ratechange', function(){
+    if(clip.playbackRate !== SPEED) clip.playbackRate = SPEED;
+  });
+
+  document.addEventListener('visibilitychange', function(){
+    if(document.hidden){ try{ clip.pause(); }catch(e){} }
+    else if(clip.style.opacity === '1'){
+      var g = clip.play(); if(g && g.catch) g.catch(function(){});
+    }
+  });
+
+  timer = setTimeout(showClip, ART_MS);
 })();
 </script>
 </body>
