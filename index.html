@@ -685,7 +685,17 @@ table.rs.is-marking tbody td:hover{outline:2px dashed var(--sky);outline-offset:
 /* A short banner band rather than a tall scrolling section. The default
    treatment pins the clip to the viewport, which in a 300px band would show
    only its top strip - sky, and none of the people. Here it fills the band. */
-.vid-bg.vid-band video{position:absolute;inset:0;height:100%;object-position:center 44%}
+/* The clip is 1.4:1 and this band is far wider than it is tall, so `cover`
+   only ever shows a horizontal slice of it. The band therefore needs real
+   height, or the jumping is cropped away and only torsos survive. */
+/* min-height on .vid-bg does nothing to the band: it is absolutely
+   positioned, so it stretches to the parent and cannot push it. The height
+   has to live on the section. */
+.vid-hero{min-height:560px;display:flex;flex-direction:column;justify-content:center}
+@media (max-width:620px){ .vid-hero{min-height:430px} }
+.vid-bg.vid-band video{position:absolute;inset:0;height:100%;object-position:center 48%}
+.vid-bg.vid-band .vid-veil{background:linear-gradient(180deg,rgba(12,20,36,.58) 0%,
+  rgba(12,20,36,.30) 45%,rgba(12,20,36,.34) 65%,rgba(12,20,36,.60) 100%)}
 /* the experiences view sets its eyebrow to muted grey, which disappears on
    the veil; its #id beats the .section.has-vid rule, so restate it */
 #experiences .has-vid .eyebrow{color:#FFC531}
@@ -1295,12 +1305,7 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
   </div>
 </section>
 
-<section class="wrap section has-vid" id="gallery" style="padding-block:10px 70px">
-  <div class="vid-bg" aria-hidden="true">
-    <video id="galVid" muted autoplay loop playsinline preload="metadata"
-           disablepictureinpicture tabindex="-1"></video>
-    <div class="vid-veil"></div>
-  </div>
+<section class="wrap section" id="gallery" style="padding-block:10px 70px">
   <div class="head">
     <span class="eyebrow">Gallery</span>
     <h2>The actual castle, in an actual garden</h2>
@@ -1477,7 +1482,7 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
   </svg>
 
   <section class="band" id="exp-hire">
-    <div class="wrap section has-vid" style="padding-block:74px;margin-block:0">
+    <div class="wrap section has-vid vid-hero" style="padding-block:68px;margin-block:0">
       <div class="vid-bg vid-band" aria-hidden="true">
         <video id="expVid" muted autoplay loop playsinline preload="metadata"
                disablepictureinpicture tabindex="-1"></video>
