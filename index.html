@@ -656,7 +656,7 @@ table.rs.is-marking tbody td:hover{outline:2px dashed var(--sky);outline-offset:
 /* the poster sits here rather than on the video, so something is always on
    screen even when a phone refuses to autoplay */
 .vid-bg::before{content:'';position:absolute;inset:0;z-index:0;
-  background:url(/_blob/c362be9420599f48875cc6fcaaeb63ab) center/cover no-repeat;
+  background:url(video/castle-poster.jpg) center/cover no-repeat;
   filter:saturate(1.5) contrast(1.06)}
 /* The gallery is several screens tall on a phone. Stretching a 4 second
    portrait clip over all of it turns it to mush, so the video is pinned to
@@ -682,6 +682,14 @@ table.rs.is-marking tbody td:hover{outline:2px dashed var(--sky);outline-offset:
 .section.has-vid .shot-note{color:#CBD7EA}
 .section.has-vid .frame svg{stroke:#C7D4E8}
 @media (max-width:620px){ .section.has-vid{padding-block:44px 52px;margin-block:26px 32px} }
+/* A short banner band rather than a tall scrolling section. The default
+   treatment pins the clip to the viewport, which in a 300px band would show
+   only its top strip - sky, and none of the people. Here it fills the band. */
+.vid-bg.vid-band video{position:absolute;inset:0;height:100%;object-position:center 44%}
+/* the experiences view sets its eyebrow to muted grey, which disappears on
+   the veil; its #id beats the .section.has-vid rule, so restate it */
+#experiences .has-vid .eyebrow{color:#FFC531}
+
 /* nobody who has asked for less motion gets a looping video */
 @media (prefers-reduced-motion:reduce){ .vid-bg video{display:none} }
 
@@ -1296,7 +1304,6 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
   <div class="head">
     <span class="eyebrow">Gallery</span>
     <h2>The actual castle, in an actual garden</h2>
-    <p>Our own three units, photographed the day they arrived. Every picture here is a castle we own and deliver ourselves &mdash; not a stock photograph, not a supplier&rsquo;s image.</p>
   </div>
   <div class="shots">
 
@@ -1337,7 +1344,6 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
     </figure>
 
   </div>
-  <p class="shot-note" style="font-size:14.5px;margin-top:22px;max-width:46rem">Ask the parent before photographing anyone else&rsquo;s children, and keep faces out of shots you use for advertising unless you have that permission in writing.</p>
 </section>
 
 <section class="wrap" style="padding-bottom:20px" id="safety">
@@ -1471,13 +1477,20 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
   </svg>
 
   <section class="band" id="exp-hire">
-    <div class="wrap section" style="padding-block:44px 70px">
+    <div class="wrap section has-vid" style="padding-block:74px;margin-block:0">
+      <div class="vid-bg vid-band" aria-hidden="true">
+        <video id="expVid" muted autoplay loop playsinline preload="metadata"
+               disablepictureinpicture tabindex="-1"></video>
+        <div class="vid-veil"></div>
+      </div>
       <div class="head">
         <span class="eyebrow">What we bring</span>
         <h2>Three pieces, and none of them is red</h2>
         <p>They come from the same fleet we hire to families, kept and cleaned to the same standard. What changes is how they look and how they are set. Take two or more and <strong>10%</strong> comes off the whole lot &mdash; it all travels on one delivery.</p>
       </div>
+    </div>
 
+    <div class="wrap section" style="padding-block:40px 70px">
       <div class="picker">
         <div class="opts">
 
@@ -4924,11 +4937,9 @@ function cbDeliveryFee(km){
    Nothing is fetched until the section is approaching the screen, which
    matters on a phone paying for data. The poster on .vid-bg::before is always
    on screen, so a browser that never plays still shows the garden. */
-(function(){
-  var v = document.getElementById('galVid');
-  if(!v) return;
+function wireBgVideo(v){
   var SPEED = 0.5;                 /* 1 = as shot, 0.5 = half, 0.25 = a drift */
-  var SRC = '/_blob/67316373a965a0e75736eff852f04b87';
+  var SRC = 'video/castle-loop.mp4';
   /* Why the clip is fetched rather than given to <source> directly:
      the asset host answers a Range request with 200 and no Content-Length.
      Chrome streams that happily; Safari refuses the media outright, which is
@@ -5019,7 +5030,8 @@ function cbDeliveryFee(km){
     if(document.hidden){ v.pause(); }
     else { var g = v.play(); if(g && g.catch) g.catch(function(){}); }
   });
-})();
+}
+[].forEach.call(document.querySelectorAll('.vid-bg video'), wireBgVideo);
 
 /* ---- brand sheet: one source for what is shown and what is downloaded ----
    Each asset is built as a complete, standalone SVG string, so the file a
