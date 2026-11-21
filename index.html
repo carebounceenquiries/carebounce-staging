@@ -1296,7 +1296,7 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
           <path d="M0 262 h400 v38 H0 Z" fill="#FFF8EE" opacity=".08"/>
         </svg>
         <video class="scene-clip" id="sceneClip" muted loop playsinline preload="none"
-               poster="video/castle-poster.jpg" disablepictureinpicture tabindex="-1"
+               poster="video/castle-poster.jpg?v=2" disablepictureinpicture tabindex="-1"
                aria-hidden="true"></video>
       </div>
     </div>
@@ -4024,10 +4024,16 @@ function cbDeliveryFee(km){
   if(!clip) return;
   if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  var ART_MS  = 5200;        /* how long the drawing holds */
+  var ART_MS  = 2000;        /* the drawing is a beat between runs, not the headline */
   var CLIP_MS = 9000;        /* about two passes at half speed */
   var SPEED   = 0.5;
-  var SRC     = 'video/castle-loop.mp4';
+  /* The version tag is what makes a changed clip actually reach people.
+     Media caches hard and the filename never changes, so without it a
+     returning visitor keeps the old video indefinitely - which is exactly
+     what happened on 21 November: the 4K file was live and being served, and
+     the browser kept playing the WhatsApp one from cache. Bump it whenever
+     the clip changes. */
+  var SRC     = 'video/castle-loop.mp4?v=2';
   var art = scene.querySelector('svg');
   var fetched = false, timer = null;
 
@@ -4047,14 +4053,12 @@ function cbDeliveryFee(km){
     /* offsetParent is null while any ancestor is display:none, which is
        exactly the state the experiences view sits in until it is chosen */
     if(scene.offsetParent === null || document.hidden){
-      timer = setTimeout(showClip, 1500);
+      timer = setTimeout(showClip, 400);   /* still waiting for the view to open */
       return;
     }
     load().then(function(){
-      clip.muted = true;
-      clip.playbackRate = SPEED;
-      var p = clip.play();
-      if(p && p.catch) p.catch(function(){});
+      clip.muted = true;                 /* iOS checks the property, not just the attribute */
+      attempt();
       clip.style.opacity = '1';
       if(art) art.style.opacity = '0';
       timer = setTimeout(showArt, CLIP_MS);
@@ -4068,19 +4072,55 @@ function cbDeliveryFee(km){
     timer = setTimeout(showClip, ART_MS);
   }
 
-  clip.addEventListener('loadedmetadata', function(){ clip.playbackRate = SPEED; });
+  /* iOS and autoplay.
+     Three things stop a muted clip playing on an iPhone, and all three look
+     identical from the outside: a still frame. First, the play() promise can
+     reject outright, so the rejection is caught and retried on the visitor's
+     first touch anywhere on the page. Second, setting playbackRate BEFORE
+     play() has historically blocked autoplay on iOS, so the rate is applied
+     once it is actually playing. Third, Low Power Mode refuses video autoplay
+     no matter what the page does, and nothing in here can override that. */
+  var armed = false;
+  function arm(){
+    if(armed) return;
+    armed = true;
+    var retry = function(){
+      clip.muted = true;
+      var g = clip.play();
+      if(g && g.then) g.then(disarm, function(){});
+    };
+    var disarm = function(){
+      document.removeEventListener('touchstart', retry);
+      document.removeEventListener('touchend', retry);
+      document.removeEventListener('click', retry);
+      armed = false;
+    };
+    document.addEventListener('touchstart', retry, { passive: true });
+    document.addEventListener('touchend', retry, { passive: true });
+    document.addEventListener('click', retry);
+  }
+  function attempt(){
+    clip.muted = true;
+    var p = clip.play();
+    if(p && p.catch) p.catch(arm);
+  }
+
+  clip.addEventListener('playing', function(){ clip.playbackRate = SPEED; });
+  clip.addEventListener('loadedmetadata', function(){ clip.muted = true; });
   clip.addEventListener('ratechange', function(){
     if(clip.playbackRate !== SPEED) clip.playbackRate = SPEED;
   });
 
   document.addEventListener('visibilitychange', function(){
     if(document.hidden){ try{ clip.pause(); }catch(e){} }
-    else if(clip.style.opacity === '1'){
-      var g = clip.play(); if(g && g.catch) g.catch(function(){});
-    }
+    else if(clip.style.opacity === '1'){ attempt(); }
   });
 
-  timer = setTimeout(showClip, ART_MS);
+  /* Start almost immediately rather than holding the drawing first. The clip
+     still cannot appear until it has downloaded, so in practice the drawing
+     is what fills that gap, which is the job it should be doing. On a decent
+     connection the switch happens in a fraction of a second. */
+  timer = setTimeout(showClip, 120);
 })();
 </script>
 </body>
