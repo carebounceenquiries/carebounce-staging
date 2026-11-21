@@ -453,6 +453,15 @@ input:focus,select:focus{border-color:var(--sky);outline:none}
 .shot figcaption{font-size:14.8px;color:var(--muted);line-height:1.5}
 .shot figcaption strong{display:block;color:var(--ink);font-size:16px;font-family:'Fredoka',sans-serif;font-weight:600;margin-bottom:3px}
 
+/* ---------- where an in-page jump lands ----------
+   The header is sticky, so following a nav link used to scroll the target to
+   y=0 and leave its heading tucked behind the header. Measured: the header is
+   69px wide-screen and 53px on a phone, so each target reserves that plus a
+   little air above it. Applied to every [id] rather than a list of sections,
+   because a list goes stale the moment a section is added. */
+[id]{scroll-margin-top:88px}
+@media (max-width:620px){ [id]{scroll-margin-top:70px} }
+
 /* ---------- gallery slideshows ---------- */
 .gshow{position:relative;aspect-ratio:4/3;max-width:100%;border-radius:var(--r-md);
   overflow:hidden;background:var(--sunk);border:1px solid var(--line)}
@@ -815,7 +824,7 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
       </a>
     </div>
 
-    <p class="chooser-foot">Fully insured &middot; every anchor point pegged &middot; delivered by the two of us</p>
+    <p class="chooser-foot">Fully insured &middot; delivered, set up and collected the same day</p>
   </section>
 </div>
 
@@ -1555,7 +1564,7 @@ table.rs tr.is-flagged td:first-child,table.rs tr.is-flagged td:nth-child(2){box
           </svg>
           <span class="brand-name">Ca<span class="brand-r">R</span>e Bounce</span>
         </div>
-        <p>Jumping castles and soft play across Gauteng. Fully insured, properly pegged, delivered by the two of us.</p>
+        <p>Jumping castles and soft play across Gauteng. Fully insured, delivered and collected the same day.</p>
         <div class="story"><strong style="color:#FFF8EE">Where the name came from.</strong> <span class="ph">Ca</span> and <span class="ph">Re</span> &mdash; the first two letters of our names. It turned out to say exactly what we do.</div>
       </div>
       <div>
